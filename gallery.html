@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery - Female Dreader | Hairstyles & Beauty Services</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/gallery.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/footer.css">
+</head>
+<body>
+  <div class="main-container">
+    <div id="navbar-container"></div>
+
+    <main>
+      <!-- ========================================
+           GALLERY HERO SECTION
+      ======================================== -->
+      <section class="gallery-hero">
+        <div class="gallery-hero-content">
+          <span class="hero-eyebrow">Our Portfolio</span>
+          <h1 class="gallery-hero-heading">Stunning Transformations</h1>
+          <p class="gallery-hero-description">
+            Explore our collection of beautiful hairstyles, dreadlocks, braids, and transformations that showcase our expertise and passion for premium hair artistry.
+          </p>
+          <div class="hero-stats">
+            <div class="stat-item">
+              <h3 class="stat-number">200+</h3>
+              <p class="stat-label">Hairstyles Completed</p>
+            </div>
+            <div class="stat-item">
+              <h3 class="stat-number">100+</h3>
+              <p class="stat-label">Happy Clients</p>
+            </div>
+            <div class="stat-item">
+              <h3 class="stat-number">5+</h3>
+              <p class="stat-label">Years Experience</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           CATEGORY FILTER SECTION
+      ======================================== -->
+      <section class="gallery-filters-section">
+        <div class="gallery-container">
+          <div class="filters-header">
+            <h2>Filter by Category</h2>
+          </div>
+          <div class="filter-pills" id="filterPills">
+            <button class="filter-pill active" data-category="all">All</button>
+            <button class="filter-pill" data-category="Locs">Locs</button>
+            <button class="filter-pill" data-category="Braiding">Braiding</button>
+            <button class="filter-pill" data-category="Ghana Weaving">Ghana Weaving</button>
+            <button class="filter-pill" data-category="All Back">All Back</button>
+            <button class="filter-pill" data-category="Nails">Nails</button>
+            <button class="filter-pill" data-category="Transformation">Transformation</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           FEATURED WORKS SECTION
+      ======================================== -->
+      <section class="featured-works-section" id="featuredWorksSection" style="display: none;">
+        <div class="gallery-container">
+          <div class="featured-header">
+            <h2>Featured Works</h2>
+            <p>Our most celebrated transformations</p>
+          </div>
+          <div class="featured-grid" id="featuredGrid"></div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           GALLERY GRID SECTION
+      ======================================== -->
+      <section class="gallery-section">
+        <div class="gallery-container">
+          <!-- Loading State -->
+          <div class="gallery-loading" id="galleryLoading">
+            <div class="skeleton-grid">
+              <div class="skeleton-card">
+                <div class="skeleton-image"></div>
+                <div class="skeleton-text"></div>
+              </div>
+              <div class="skeleton-card">
+                <div class="skeleton-image"></div>
+                <div class="skeleton-text"></div>
+              </div>
+              <div class="skeleton-card">
+                <div class="skeleton-image"></div>
+                <div class="skeleton-text"></div>
+              </div>
+              <div class="skeleton-card">
+                <div class="skeleton-image"></div>
+                <div class="skeleton-text"></div>
+              </div>
+              <div class="skeleton-card">
+                <div class="skeleton-image"></div>
+                <div class="skeleton-text"></div>
+              </div>
+              <div class="skeleton-card">
+                <div class="skeleton-image"></div>
+                <div class="skeleton-text"></div>
+              </div>
+              <div class="skeleton-card">
+                <div class="skeleton-image"></div>
+                <div class="skeleton-text"></div>
+              </div>
+              <div class="skeleton-card">
+                <div class="skeleton-image"></div>
+                <div class="skeleton-text"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gallery Grid -->
+          <div class="gallery-grid" id="galleryGrid"></div>
+
+          <!-- Empty State -->
+          <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-icon">
+              <i class="fas fa-images"></i>
+            </div>
+            <h3>No Gallery Items Yet</h3>
+            <p>We're currently updating our gallery. Please check back soon!</p>
+            <button class="btn btn-primary" onclick="location.reload()">Refresh Page</button>
+          </div>
+
+          <!-- Error State -->
+          <div class="error-state" id="errorState" style="display: none;">
+            <div class="error-icon">
+              <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3>Oops! Something Went Wrong</h3>
+            <p id="errorMessage">Unable to load gallery items. Please try again.</p>
+            <button class="btn btn-primary" onclick="location.reload()">Retry</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           CTA SECTION
+      ======================================== -->
+      <section class="cta-section">
+        <div class="cta-content">
+          <h2>Ready For Your Next Look?</h2>
+          <p>Book your appointment today and let Female Dreader bring your vision to life.</p>
+          <div class="cta-buttons">
+            <button class="btn btn-primary">Book Appointment</button>
+            <button class="btn btn-secondary">Contact Us</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ========================================
+       LIGHTBOX MODAL
+  ======================================== -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-overlay" id="lightboxOverlay"></div>
+    <div class="lightbox-container">
+      <button class="lightbox-close" id="lightboxClose">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <button class="lightbox-nav lightbox-prev" id="lightboxPrev">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+
+      <div class="lightbox-content">
+        <img id="lightboxImage" src="" alt="" class="lightbox-image">
+        <div class="lightbox-info">
+          <h3 id="lightboxTitle"></h3>
+          <p id="lightboxDescription"></p>
+          <span class="lightbox-category" id="lightboxCategory"></span>
+        </div>
+      </div>
+
+      <button class="lightbox-nav lightbox-next" id="lightboxNext">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="js/scroll/scroll-init.js"></script>
+
+  <!-- Scripts -->
+  <script src="js/navbar.js"></script>
+  <script type="module" src="js/components.js"></script>
+  <script type="module" src="js/gallery.js"></script>
+</body>
+</html>

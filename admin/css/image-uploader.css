@@ -1,0 +1,419 @@
+/* ============================================================
+   FEMALE DREADER ADMIN — IMAGE UPLOADER COMPONENT
+   admin/css/image-uploader.css
+   Drop zone, preview, progress, upload states
+   ============================================================ */
+
+/* ── Drop Zone Container ────────────────────────────────────── */
+.img-uploader {
+  position: relative;
+  width: 100%;
+}
+
+.img-uploader__dropzone {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 2rem 1.5rem;
+  min-height: 180px;
+  border: 2px dashed var(--admin-border);
+  border-radius: var(--admin-radius-lg);
+  background-color: var(--admin-bg);
+  cursor: pointer;
+  transition: all 0.25s var(--admin-ease);
+  overflow: hidden;
+}
+
+.img-uploader__dropzone:hover {
+  border-color: var(--admin-gold);
+  background-color: var(--admin-gold-light);
+}
+
+/* Drag-active state */
+.img-uploader__dropzone--drag-over {
+  border-color: var(--admin-gold);
+  background-color: var(--admin-gold-light);
+  box-shadow: 0 0 0 4px rgba(201, 169, 110, 0.15);
+  transform: scale(1.01);
+}
+
+/* Uploading state — reduce interactivity */
+.img-uploader__dropzone--uploading {
+  pointer-events: none;
+  cursor: default;
+  border-color: var(--admin-info);
+  background-color: var(--admin-info-bg);
+}
+
+/* Error state */
+.img-uploader__dropzone--error {
+  border-color: var(--admin-danger);
+  background-color: var(--admin-danger-bg);
+}
+
+/* Success state */
+.img-uploader__dropzone--success {
+  border-color: var(--admin-success);
+  background-color: var(--admin-success-bg);
+}
+
+/* Has preview — different styling */
+.img-uploader__dropzone--has-preview {
+  padding: 0;
+  border-style: solid;
+  border-width: 1px;
+  min-height: 200px;
+}
+
+/* Hidden file input */
+.img-uploader__input {
+  display: none !important;
+}
+
+/* ── Empty State Content ────────────────────────────────────── */
+.img-uploader__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  pointer-events: none;
+}
+
+.img-uploader__icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--admin-gold) 0%, var(--admin-gold-dark) 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  box-shadow: 0 4px 14px rgba(201, 169, 110, 0.3);
+  transition: transform 0.3s var(--admin-ease);
+}
+
+.img-uploader__dropzone:hover .img-uploader__icon {
+  transform: scale(1.1) translateY(-2px);
+}
+
+.img-uploader__text {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--admin-text-secondary);
+}
+
+.img-uploader__hint {
+  font-size: 0.78rem;
+  color: var(--admin-text-muted);
+}
+
+.img-uploader__browse-link {
+  color: var(--admin-gold-dark);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ── Preview Container ──────────────────────────────────────── */
+.img-uploader__preview-wrap {
+  position: relative;
+  width: 100%;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0f172a;
+  border-radius: calc(var(--admin-radius-lg) - 2px);
+  overflow: hidden;
+}
+
+.img-uploader__preview-img {
+  display: block;
+  max-width: 100%;
+  max-height: 280px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  transition: opacity 0.3s ease;
+}
+
+/* Dim image during upload */
+.img-uploader__dropzone--uploading .img-uploader__preview-img {
+  opacity: 0.5;
+}
+
+/* ── Preview Overlay (actions) ──────────────────────────────── */
+.img-uploader__preview-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.7) 0%, transparent 50%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 1rem;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.img-uploader__dropzone:not(.img-uploader__dropzone--uploading):hover .img-uploader__preview-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Action buttons on preview */
+.img-uploader__action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-radius: var(--admin-radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  backdrop-filter: blur(8px);
+}
+
+.img-uploader__action-btn--replace {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.img-uploader__action-btn--replace:hover {
+  background-color: rgba(255, 255, 255, 0.35);
+}
+
+.img-uploader__action-btn--remove {
+  background-color: rgba(239, 68, 68, 0.25);
+  color: #fca5a5;
+}
+
+.img-uploader__action-btn--remove:hover {
+  background-color: rgba(239, 68, 68, 0.5);
+  color: #fff;
+}
+
+/* ── Upload Progress ────────────────────────────────────────── */
+.img-uploader__progress-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  border-radius: calc(var(--admin-radius-lg) - 2px);
+  z-index: 5;
+}
+
+.img-uploader__spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--admin-gold);
+  border-radius: 50%;
+  animation: imgUploader-spin 0.8s linear infinite;
+}
+
+@keyframes imgUploader-spin {
+  to { transform: rotate(360deg); }
+}
+
+.img-uploader__progress-bar-track {
+  width: 65%;
+  max-width: 220px;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: var(--admin-radius-pill);
+  overflow: hidden;
+}
+
+.img-uploader__progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--admin-gold) 0%, var(--admin-gold-dark) 100%);
+  border-radius: var(--admin-radius-pill);
+  transition: width 0.3s ease;
+}
+
+.img-uploader__progress-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.02em;
+}
+
+/* ── Success Badge ──────────────────────────────────────────── */
+.img-uploader__success-badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.7rem;
+  background-color: var(--admin-success);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: var(--admin-radius-pill);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+  z-index: 3;
+  animation: imgUploader-badge-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes imgUploader-badge-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ── Error State ────────────────────────────────────────────── */
+.img-uploader__error-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.img-uploader__error-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--admin-danger-bg);
+  color: var(--admin-danger);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+
+.img-uploader__error-msg {
+  font-size: 0.85rem;
+  color: var(--admin-danger);
+  font-weight: 500;
+  max-width: 320px;
+  line-height: 1.5;
+}
+
+.img-uploader__retry-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--admin-text-main);
+  background-color: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.img-uploader__retry-btn:hover {
+  background-color: var(--admin-bg);
+  border-color: var(--admin-gold);
+  color: var(--admin-gold-dark);
+}
+
+/* ── Validation Message ─────────────────────────────────────── */
+.img-uploader__validation {
+  display: none;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--admin-danger);
+  font-weight: 500;
+}
+
+.img-uploader__validation--visible {
+  display: flex;
+}
+
+.img-uploader__validation i {
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+/* ── Existing Image Badge ───────────────────────────────────── */
+.img-uploader__existing-badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  background-color: rgba(15, 23, 42, 0.7);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: var(--admin-radius-pill);
+  backdrop-filter: blur(4px);
+  z-index: 3;
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .img-uploader__dropzone {
+    min-height: 150px;
+    padding: 1.5rem 1rem;
+  }
+
+  .img-uploader__preview-img {
+    max-height: 200px;
+  }
+
+  .img-uploader__icon {
+    width: 48px;
+    height: 48px;
+    font-size: 1.2rem;
+  }
+
+  .img-uploader__progress-bar-track {
+    width: 80%;
+  }
+
+  .img-uploader__preview-overlay {
+    opacity: 1;
+    pointer-events: auto;
+    background: linear-gradient(to top, rgba(15, 23, 42, 0.8) 0%, transparent 60%);
+  }
+
+  .img-uploader__action-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .img-uploader__dropzone {
+    min-height: 130px;
+  }
+
+  .img-uploader__preview-img {
+    max-height: 160px;
+  }
+}

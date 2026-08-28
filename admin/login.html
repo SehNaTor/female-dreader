@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - Female Dreader</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <style>
+    /* Login specific styling */
+    .login-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--admin-bg) 0%, #e2e8f0 100%);
+      padding: 2rem;
+    }
+
+    .login-card {
+      background: var(--admin-surface);
+      width: 100%;
+      max-width: 440px;
+      border-radius: var(--admin-radius-xl);
+      box-shadow: var(--admin-shadow-xl);
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .login-logo {
+      font-family: var(--admin-font-serif);
+      font-size: 1.75rem;
+      color: var(--admin-text-main);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .login-logo i {
+      color: var(--admin-gold);
+    }
+
+    .login-subtitle {
+      color: var(--admin-text-muted);
+      font-size: 0.95rem;
+    }
+
+    .password-wrap {
+      position: relative;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--admin-text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .password-toggle:hover {
+      color: var(--admin-text-main);
+    }
+
+    .login-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .forgot-password {
+      font-size: 0.875rem;
+      color: var(--admin-gold-dark);
+      font-weight: 500;
+      transition: var(--admin-transition);
+    }
+
+    .forgot-password:hover {
+      color: var(--admin-text-main);
+      text-decoration: underline;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 0.875rem;
+      font-size: 1rem;
+    }
+
+    .login-btn i.fa-spinner {
+      animation: spin 1s linear infinite;
+      display: none;
+    }
+
+    .login-btn.loading i.fa-spinner {
+      display: inline-block;
+    }
+    
+    .login-btn.loading span {
+      display: none;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Global Alert */
+    .login-alert {
+      display: none;
+      padding: 0.875rem;
+      border-radius: var(--admin-radius-md);
+      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .login-alert.error {
+      display: flex;
+      background-color: var(--admin-danger-bg);
+      color: var(--admin-danger);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="login-logo">
+          <i class="fa-solid fa-crown"></i>
+          Female Dreader
+        </div>
+        <p class="login-subtitle">Content Management System</p>
+      </div>
+
+      <div id="login-alert" class="login-alert">
+        <i class="fa-solid fa-circle-exclamation mt-1"></i>
+        <span id="login-alert-text">Invalid credentials</span>
+      </div>
+
+      <form id="login-form" novalidate>
+        <div class="admin-form-group" id="email-group">
+          <label for="email" class="admin-form-label">Email Address</label>
+          <input 
+            type="email" 
+            id="email" 
+            class="admin-form-input" 
+            placeholder="admin@femaledreader.com" 
+            required
+            autocomplete="email"
+          >
+          <span class="admin-form-error">Please enter a valid email address.</span>
+        </div>
+
+        <div class="admin-form-group" id="password-group">
+          <label for="password" class="admin-form-label">Password</label>
+          <div class="password-wrap">
+            <input 
+              type="password" 
+              id="password" 
+              class="admin-form-input" 
+              placeholder="••••••••" 
+              required
+              autocomplete="current-password"
+            >
+            <button type="button" class="password-toggle" id="toggle-password" aria-label="Toggle password visibility">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+          <span class="admin-form-error">Password is required.</span>
+        </div>
+
+        <div class="login-meta">
+          <label class="admin-checkbox-wrap">
+            <input type="checkbox" id="remember-me">
+            <span class="admin-checkbox-label">Remember me</span>
+          </label>
+          <a href="#" class="forgot-password" onclick="alert('Please contact the system administrator to reset your password.')">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="admin-btn admin-btn--primary login-btn" id="submit-btn">
+          <span>Sign In</span>
+          <i class="fa-solid fa-spinner"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="../js/scroll/scroll-init.js"></script>
+
+  <script type="module" src="js/auth.js"></script>
+</body>
+</html>

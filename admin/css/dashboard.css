@@ -1,0 +1,180 @@
+/* ============================================================
+   FEMALE DREADER ADMIN — DASHBOARD
+   admin/css/dashboard.css
+   ============================================================ */
+
+.admin-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.stat-card {
+  background-color: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-lg);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: var(--admin-shadow-sm);
+  transition: var(--admin-transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--admin-shadow-md);
+}
+
+.stat-card__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--admin-radius-md);
+  background-color: var(--admin-bg);
+  color: var(--admin-text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.stat-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.stat-card__label {
+  font-size: 0.875rem;
+  color: var(--admin-text-muted);
+  font-weight: 500;
+}
+
+.stat-card__value {
+  font-size: 1.5rem;
+  color: var(--admin-text-main);
+  font-weight: 700;
+  margin: 0;
+  line-height: 1;
+}
+
+/* Color Variants */
+.stat-card--warning .stat-card__icon {
+  background-color: var(--admin-warning-bg);
+  color: var(--admin-warning);
+}
+.stat-card--success .stat-card__icon {
+  background-color: var(--admin-success-bg);
+  color: var(--admin-success);
+}
+.stat-card--danger .stat-card__icon {
+  background-color: var(--admin-danger-bg);
+  color: var(--admin-danger);
+}
+.stat-card--info .stat-card__icon {
+  background-color: var(--admin-info-bg);
+  color: var(--admin-info);
+}
+
+/* Dashboard Panels */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.dashboard-panel {
+  background-color: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-lg);
+  box-shadow: var(--admin-shadow-sm);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-panel__header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--admin-surface);
+}
+
+.dashboard-panel__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.dashboard-panel__body {
+  padding: 1.5rem;
+  flex-grow: 1;
+  min-height: 200px;
+}
+
+/* Simple list for recent items */
+.recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.recent-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: var(--admin-radius-md);
+  border: 1px solid var(--admin-border);
+  background-color: var(--admin-bg);
+  transition: var(--admin-transition);
+}
+
+.recent-item:hover {
+  border-color: var(--admin-gold);
+}
+
+.recent-item__left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.recent-item__title {
+  font-weight: 600;
+  color: var(--admin-text-main);
+  font-size: 0.95rem;
+}
+
+.recent-item__meta {
+  font-size: 0.8rem;
+  color: var(--admin-text-muted);
+}
+
+/* Loading */
+.admin-loader {
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top: 3px solid var(--admin-gold);
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+  margin: 2rem auto;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

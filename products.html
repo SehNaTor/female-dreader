@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products — Female Dreader | Premium Hair Care & Beauty</title>
+  <meta name="description" content="Explore Female Dreader's premium range of hair care, dreadlock products, shampoos, extensions, wigs, and beauty accessories. Professionally selected for your hair journey.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/products.css">
+  <link rel="stylesheet" href="css/footer.css">
+</head>
+<body>
+
+  <div class="main-container">
+    <div id="navbar-container"></div>
+
+    <button class="prd-floating-cart" type="button" data-cart-trigger aria-label="Open shopping cart">
+      <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>
+      <span id="cart-badge" class="prd-floating-cart__badge">0</span>
+    </button>
+
+    <div id="cart-drawer" class="prd-cart-drawer" aria-hidden="true" role="dialog" aria-label="Shopping cart">
+      <div class="prd-cart-drawer__backdrop" data-cart-close></div>
+      <aside class="prd-cart-drawer__panel">
+        <div class="prd-cart-drawer__header">
+          <div>
+            <span class="prd-cart-drawer__eyebrow">Shopping Cart</span>
+            <h3 class="prd-cart-drawer__title">Your Order</h3>
+          </div>
+          <button type="button" class="prd-cart-drawer__close" data-cart-close aria-label="Close cart">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div id="cart-drawer-content" class="prd-cart-drawer__content"></div>
+      </aside>
+    </div>
+
+    <main id="products-main">
+
+      <!-- ======================================
+           SECTION 1: HERO
+      ====================================== -->
+      <section class="prd-hero" aria-labelledby="prd-hero-heading">
+        <div class="prd-hero__backdrop" aria-hidden="true"></div>
+        <div class="prd-hero__overlay" aria-hidden="true"></div>
+        <div class="prd-hero__particles" aria-hidden="true">
+          <span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <div class="prd-hero__content">
+          <span class="prd-hero__eyebrow">
+            <i class="fa-solid fa-star" aria-hidden="true"></i>
+            Premium Beauty Collection
+          </span>
+          <h1 id="prd-hero-heading" class="prd-hero__heading">
+            Premium Hair Care &amp;<br>Beauty Products
+          </h1>
+          <p class="prd-hero__description">
+            Discover our carefully selected range of professional grade hair care, dreadlock essentials,
+            extensions, and beauty accessories crafted to nourish, protect, and elevate your hair journey.
+          </p>
+          <div class="prd-hero__cta-group">
+            <a href="#products-catalog" class="prd-btn prd-btn--primary" aria-label="Browse all products">
+              <i class="fa-solid fa-sparkles" aria-hidden="true"></i>
+              Shop Products
+            </a>
+            <a href="services.html" class="prd-btn prd-btn--ghost" aria-label="Book a service">
+              Book a Service
+              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </a>
+          </div>
+          <div class="prd-hero__trust" aria-label="Trust indicators">
+            <div class="prd-trust-pill">
+              <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+              Quality Guaranteed
+            </div>
+            <div class="prd-trust-pill">
+              <i class="fa-solid fa-leaf" aria-hidden="true"></i>
+              Natural Ingredients
+            </div>
+            <div class="prd-trust-pill">
+              <i class="fa-solid fa-truck-fast" aria-hidden="true"></i>
+              Fast Delivery
+            </div>
+          </div>
+        </div>
+        <div class="prd-hero__scroll" aria-hidden="true">
+          <span></span>
+        </div>
+      </section>
+
+      <!-- ======================================
+           SECTION 2: FEATURED PRODUCTS
+      ====================================== -->
+      <section class="prd-featured-section" aria-labelledby="prd-featured-heading" id="featured-products">
+        <div class="prd-section-container">
+          <div class="prd-section-header">
+            <span class="prd-section-eyebrow">
+              <i class="fa-solid fa-crown" aria-hidden="true"></i>
+              Best Sellers
+            </span>
+            <h2 id="prd-featured-heading" class="prd-section-heading">Featured Products</h2>
+            <p class="prd-section-subheading">Our most-loved products hand-picked for results you can see and feel.</p>
+          </div>
+
+          <!-- Featured Grid (JS renders) -->
+          <div id="featured-grid" class="prd-featured-grid" role="list" aria-label="Featured products"></div>
+
+          <!-- Featured Empty -->
+          <div id="featured-empty" class="prd-empty-state" hidden aria-live="polite">
+            <i class="fa-regular fa-star prd-empty-state__icon" aria-hidden="true"></i>
+            <p class="prd-empty-state__text">No featured products available right now.</p>
+          </div>
+
+          <!-- Featured Error -->
+          <div id="featured-error" class="prd-error-state" hidden aria-live="assertive">
+            <i class="fa-solid fa-triangle-exclamation prd-error-state__icon" aria-hidden="true"></i>
+            <p class="prd-error-state__text">Failed to load featured products.</p>
+            <button class="prd-btn prd-btn--outline" id="featured-retry" aria-label="Retry loading featured products">
+              <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+              Try Again
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================
+           SECTION 3: CATEGORY FILTERS
+      ====================================== -->
+      <section class="prd-filter-section" aria-label="Filter products by category" id="prd-filters">
+        <div class="prd-filter__container">
+          <div class="prd-filter__label">
+            <i class="fa-solid fa-filter" aria-hidden="true"></i>
+            Filter by Category:
+          </div>
+          <nav class="prd-filter__nav" role="navigation" aria-label="Product category filters">
+            <button class="prd-filter-pill prd-filter-pill--active" data-category="all" aria-pressed="true" aria-label="Show all products" id="filter-all">
+              <span class="prd-filter-pill__dot"></span>
+              All Products
+            </button>
+            <button class="prd-filter-pill" data-category="Hair Care" aria-pressed="false" aria-label="Filter by Hair Care" id="filter-hair-care">
+              <span class="prd-filter-pill__dot"></span>
+              Hair Care
+            </button>
+            <button class="prd-filter-pill" data-category="Dreadlock Products" aria-pressed="false" aria-label="Filter by Dreadlock Products" id="filter-dreadlock">
+              <span class="prd-filter-pill__dot"></span>
+              Dreadlock Products
+            </button>
+            <button class="prd-filter-pill" data-category="Shampoos" aria-pressed="false" aria-label="Filter by Shampoos" id="filter-shampoos">
+              <span class="prd-filter-pill__dot"></span>
+              Shampoos
+            </button>
+            <button class="prd-filter-pill" data-category="Hair Growth" aria-pressed="false" aria-label="Filter by Hair Growth" id="filter-hair-growth">
+              <span class="prd-filter-pill__dot"></span>
+              Hair Growth
+            </button>
+            <button class="prd-filter-pill" data-category="Extensions" aria-pressed="false" aria-label="Filter by Extensions" id="filter-extensions">
+              <span class="prd-filter-pill__dot"></span>
+              Extensions
+            </button>
+            <button class="prd-filter-pill" data-category="Wigs" aria-pressed="false" aria-label="Filter by Wigs" id="filter-wigs">
+              <span class="prd-filter-pill__dot"></span>
+              Wigs
+            </button>
+            <button class="prd-filter-pill" data-category="Beauty Accessories" aria-pressed="false" aria-label="Filter by Beauty Accessories" id="filter-beauty">
+              <span class="prd-filter-pill__dot"></span>
+              Beauty Accessories
+            </button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ======================================
+           SECTION 4: ALL PRODUCTS CATALOG
+      ====================================== -->
+      <section class="prd-catalog-section" aria-labelledby="prd-catalog-heading" id="products-catalog">
+        <div class="prd-section-container">
+          <div class="prd-section-header">
+            <span class="prd-section-eyebrow">
+              <i class="fa-solid fa-list" aria-hidden="true"></i>
+              Full Collection
+            </span>
+            <h2 id="prd-catalog-heading" class="prd-section-heading">All Products</h2>
+            <p class="prd-section-subheading">Professional-grade beauty products for every stage of your hair journey.</p>
+          </div>
+
+          <!-- Result Count -->
+          <div class="prd-catalog-meta" aria-live="polite">
+            <span id="catalog-count" class="prd-catalog-count"></span>
+          </div>
+
+          <!-- Catalog Grid (JS renders) -->
+          <div id="catalog-grid" class="prd-catalog-grid" role="list" aria-label="All products"></div>
+
+          <!-- Catalog Empty -->
+          <div id="catalog-empty" class="prd-empty-state prd-empty-state--large" hidden aria-live="polite">
+            <div class="prd-empty-state__illustration" aria-hidden="true">
+              <i class="fa-solid fa-box-open prd-empty-state__icon"></i>
+            </div>
+            <h3 class="prd-empty-state__heading">No Products Found</h3>
+            <p class="prd-empty-state__text">No products match the selected category. Try a different filter.</p>
+            <button class="prd-btn prd-btn--outline" id="empty-reset" aria-label="Show all products">
+              <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+              Show All Products
+            </button>
+          </div>
+
+          <!-- Catalog Error -->
+          <div id="catalog-error" class="prd-error-state" hidden aria-live="assertive">
+            <div class="prd-error-state__illustration" aria-hidden="true">
+              <i class="fa-solid fa-circle-exclamation prd-error-state__icon"></i>
+            </div>
+            <h3 class="prd-error-state__heading">Something Went Wrong</h3>
+            <p class="prd-error-state__text">We couldn't load the product catalog. Please check your connection and try again.</p>
+            <button class="prd-btn prd-btn--outline" id="catalog-retry" aria-label="Retry loading products">
+              <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+              Retry
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================
+           SECTION 5: FINAL CTA
+      ====================================== -->
+      <section class="prd-cta-section" aria-labelledby="prd-cta-heading">
+        <div class="prd-cta__backdrop" aria-hidden="true"></div>
+        <div class="prd-cta__content">
+          <span class="prd-cta__eyebrow" aria-hidden="true">
+            <i class="fa-solid fa-scissors"></i>
+          </span>
+          <h2 id="prd-cta-heading" class="prd-cta__heading">
+            Love What You See?<br>Book a Treatment Today.
+          </h2>
+          <p class="prd-cta__subheading">
+            Pair our premium products with a professional salon service for the ultimate hair experience.
+          </p>
+          <div class="prd-cta__buttons">
+            <a href="services.html" class="prd-btn prd-btn--primary prd-btn--large" aria-label="Book your appointment">
+              <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+              Book Appointment
+            </a>
+            <a href="contact.html" class="prd-btn prd-btn--ghost-dark prd-btn--large" aria-label="Contact us">
+              <i class="fa-solid fa-comment-dots" aria-hidden="true"></i>
+              Contact Us
+            </a>
+          </div>
+          <div class="prd-cta__social-proof">
+            <div class="prd-social-proof-stars" aria-label="Five star rating">★★★★★</div>
+            <span>Trusted by satisfied clients across Lagos</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================
+           SECTION 6: PRODUCT DETAILS MODAL
+      ====================================== -->
+      <div id="prd-details-modal" class="prd-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-product-name">
+        <div class="prd-modal__backdrop" data-close-modal></div>
+        <div class="prd-modal__content">
+          <button class="prd-modal__close" data-close-modal aria-label="Close modal">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </button>
+          
+          <div class="prd-modal__grid">
+            <!-- Modal Image -->
+            <div class="prd-modal__image-wrapper">
+              <img id="modal-product-img" src="" alt="Product Image" class="prd-modal__img">
+            </div>
+            
+            <!-- Modal Info -->
+            <div class="prd-modal__info">
+              <span id="modal-product-category" class="prd-modal__category">Category</span>
+              <h2 id="modal-product-name" class="prd-modal__name">Product Name</h2>
+              <div id="modal-product-price" class="prd-modal__price">₦0</div>
+              
+              <div class="prd-modal__divider"></div>
+              
+              <div class="prd-modal__section">
+                <h3>Description</h3>
+                <p id="modal-product-desc" class="prd-modal__desc">Full product description will appear here.</p>
+              </div>
+
+              <div class="prd-modal__actions">
+                <button id="modal-order-btn" class="prd-btn prd-btn--primary prd-btn--full">
+                  <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+                  Order Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================
+           SECTION 7: CART & CHECKOUT MODAL
+      ====================================== -->
+      <div id="prd-order-modal" class="prd-modal prd-modal--checkout" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="checkout-modal-title">
+        <div class="prd-modal__backdrop" data-close-order></div>
+        <div class="prd-modal__content prd-modal__content--checkout">
+          <div class="checkout-header">
+            <div class="checkout-header__product">
+              <div class="checkout-header__icon">
+                <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>
+              </div>
+              <div class="checkout-header__info">
+                <span class="checkout-header__category">Premium Checkout</span>
+                <h2 id="checkout-modal-title" class="checkout-header__title">Complete Your Order</h2>
+                <span class="checkout-header__badge"><i class="fa-solid fa-circle-check"></i> Secure &amp; Fast</span>
+              </div>
+            </div>
+            <button class="prd-modal__close prd-modal__close--checkout" data-close-order aria-label="Close checkout modal">
+              <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+          </div>
+
+          <div class="checkout-body">
+            <div class="checkout-layout">
+              <section class="checkout-panel" aria-labelledby="checkout-summary-heading">
+                <div class="checkout-panel__header">
+                  <h3 id="checkout-summary-heading" class="checkout-panel__title">Order Summary</h3>
+                  <span id="checkout-item-count" class="checkout-panel__meta">0 items</span>
+                </div>
+                <div id="checkout-summary-list" class="checkout-summary-list"></div>
+                <div class="checkout-total-block">
+                  <div class="checkout-total-block__row">
+                    <span>Total</span>
+                    <strong id="checkout-total-amount">₦0</strong>
+                  </div>
+                </div>
+              </section>
+
+              <section class="checkout-panel checkout-panel--form" aria-labelledby="checkout-customer-heading">
+                <div class="checkout-panel__header">
+                  <h3 id="checkout-customer-heading" class="checkout-panel__title">Customer Details</h3>
+                  <span class="checkout-panel__meta">Paystack ready</span>
+                </div>
+
+                <div id="checkout-stage">
+                  <form id="prd-order-form" class="checkout-form">
+                    <div class="form-notification" id="form-notification" style="display: none;"></div>
+
+                    <div class="checkout-form-grid">
+                      <div class="checkout-form-group">
+                        <input type="text" id="order-name" class="checkout-input" required placeholder=" ">
+                        <label for="order-name" class="checkout-floating-label">Full Name *</label>
+                      </div>
+
+                      <div class="checkout-form-group">
+                        <input type="tel" id="order-phone" class="checkout-input" required placeholder=" ">
+                        <label for="order-phone" class="checkout-floating-label">Phone Number *</label>
+                      </div>
+
+                      <div class="checkout-form-group">
+                        <input type="email" id="order-email" class="checkout-input" required placeholder=" ">
+                        <label for="order-email" class="checkout-floating-label">Email Address</label>
+                      </div>
+                    </div>
+
+                    <div class="checkout-form-group">
+                      <textarea id="order-address" class="checkout-input checkout-textarea" required placeholder=" "></textarea>
+                      <label for="order-address" class="checkout-floating-label">Delivery Address *</label>
+                    </div>
+
+                    <div class="checkout-form-group">
+                      <textarea id="order-notes" class="checkout-input checkout-textarea" placeholder=" "></textarea>
+                      <label for="order-notes" class="checkout-floating-label">Additional Notes (Optional)</label>
+                    </div>
+
+                    <div class="checkout-payment-card" aria-label="Payment method information">
+                      <div class="checkout-payment-card__head">
+                        <span class="checkout-payment-card__label">Payment Method</span>
+                        <strong>Paystack</strong>
+                      </div>
+                      <p>Paystack supports debit cards, bank transfers, USSD, and other supported methods. This is a payment-ready checkout flow for future integration.</p>
+                    </div>
+
+                    <div class="checkout-trust">
+                      <div class="trust-item"><i class="fa-solid fa-lock"></i> Secure Order</div>
+                      <div class="trust-item"><i class="fa-solid fa-bolt"></i> Fast Response</div>
+                      <div class="trust-item"><i class="fa-solid fa-headset"></i> 24/7 Support</div>
+                    </div>
+
+                    <button type="submit" class="prd-btn prd-btn--primary prd-btn--full checkout-submit-btn prd-submit-btn">
+                      <span class="btn-text">Place My Order</span>
+                      <span class="btn-loader" style="display: none;"><i class="fa-solid fa-spinner fa-spin"></i></span>
+                    </button>
+                  </form>
+                </div>
+
+                <div id="checkout-success-stage" class="checkout-success-stage" hidden></div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <div id="footer-container"></div>
+
+
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="js/scroll/scroll-init.js"></script>
+
+  <!-- Navbar Script -->
+  <script src="js/navbar.js"></script>
+
+  <!-- Component Loader -->
+  <script type="module" src="js/components.js"></script>
+
+  <!-- Products Page Module -->
+  <script type="module" src="js/products.js"></script>
+
+</body>
+</html>

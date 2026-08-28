@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Female Dreader Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+  <!-- Dashboard Overview Container -->
+  <div class="admin-dashboard">
+    
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+      <!-- Bookings Stats -->
+      <div class="stat-card stat-card--warning">
+        <div class="stat-card__icon"><i class="fa-regular fa-clock"></i></div>
+        <div class="stat-card__info">
+          <p class="stat-card__label">Pending Bookings</p>
+          <h3 class="stat-card__value" id="stat-pending">--</h3>
+        </div>
+      </div>
+      
+      <div class="stat-card stat-card--info">
+        <div class="stat-card__icon"><i class="fa-regular fa-calendar-check"></i></div>
+        <div class="stat-card__info">
+          <p class="stat-card__label">Confirmed Bookings</p>
+          <h3 class="stat-card__value" id="stat-confirmed">--</h3>
+        </div>
+      </div>
+
+      <div class="stat-card stat-card--success">
+        <div class="stat-card__icon"><i class="fa-solid fa-check-double"></i></div>
+        <div class="stat-card__info">
+          <p class="stat-card__label">Completed</p>
+          <h3 class="stat-card__value" id="stat-completed">--</h3>
+        </div>
+      </div>
+
+      <div class="stat-card stat-card--danger">
+        <div class="stat-card__icon"><i class="fa-solid fa-xmark"></i></div>
+        <div class="stat-card__info">
+          <p class="stat-card__label">Cancelled</p>
+          <h3 class="stat-card__value" id="stat-cancelled">--</h3>
+        </div>
+      </div>
+
+      <!-- Entity Stats -->
+      <div class="stat-card">
+        <div class="stat-card__icon"><i class="fa-solid fa-scissors"></i></div>
+        <div class="stat-card__info">
+          <p class="stat-card__label">Total Services</p>
+          <h3 class="stat-card__value" id="stat-services">--</h3>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card__icon"><i class="fa-solid fa-bottle-droplet"></i></div>
+        <div class="stat-card__info">
+          <p class="stat-card__label">Total Products</p>
+          <h3 class="stat-card__value" id="stat-products">--</h3>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card__icon"><i class="fa-regular fa-image"></i></div>
+        <div class="stat-card__info">
+          <p class="stat-card__label">Gallery Images</p>
+          <h3 class="stat-card__value" id="stat-gallery">--</h3>
+        </div>
+      </div>
+
+      <!-- Orders Stats -->
+      <div class="stat-card">
+        <div class="stat-card__icon"><i class="fa-solid fa-cart-shopping"></i></div>
+        <div class="stat-card__info">
+          <p class="stat-card__label">Total Orders</p>
+          <h3 class="stat-card__value" id="stat-orders-total">--</h3>
+        </div>
+      </div>
+
+      <div class="stat-card stat-card--warning">
+        <div class="stat-card__icon"><i class="fa-solid fa-box"></i></div>
+        <div class="stat-card__info">
+          <p class="stat-card__label">Pending Orders</p>
+          <h3 class="stat-card__value" id="stat-orders-pending">--</h3>
+        </div>
+      </div>
+
+      <div class="stat-card stat-card--info">
+        <div class="stat-card__icon"><i class="fa-solid fa-truck"></i></div>
+        <div class="stat-card__info">
+          <p class="stat-card__label">Processing Orders</p>
+          <h3 class="stat-card__value" id="stat-orders-processing">--</h3>
+        </div>
+      </div>
+
+      <div class="stat-card stat-card--success">
+        <div class="stat-card__icon"><i class="fa-solid fa-box-open"></i></div>
+        <div class="stat-card__info">
+          <p class="stat-card__label">Delivered Orders</p>
+          <h3 class="stat-card__value" id="stat-orders-delivered">--</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Dashboard Areas -->
+    <div class="dashboard-grid mt-4">
+      
+      <!-- Recent Activity / Bookings -->
+      <div class="dashboard-panel">
+        <div class="dashboard-panel__header">
+          <h2 class="dashboard-panel__title">Recent Pending Bookings</h2>
+          <a href="bookings.html" class="admin-btn admin-btn--outline">View All</a>
+        </div>
+        <div class="dashboard-panel__body" id="recent-bookings-container">
+          <div class="admin-loader"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="../js/scroll/scroll-init.js"></script>
+
+  <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

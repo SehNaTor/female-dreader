@@ -1,0 +1,216 @@
+/* ============================================================
+   FEMALE DREADER ADMIN — LAYOUT
+   admin/css/layout.css
+   Sidebar, Navbar, and Main wrappers
+   ============================================================ */
+
+body {
+  display: flex;
+  min-height: 100vh;
+  overflow: hidden; /* we will scroll main content instead */
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+.admin-sidebar {
+  width: var(--admin-sidebar-width);
+  background-color: var(--admin-surface);
+  border-right: 1px solid var(--admin-border);
+  display: flex;
+  flex-direction: column;
+  transition: var(--admin-transition);
+  z-index: 50;
+  height: 100vh;
+}
+
+.admin-sidebar__header {
+  height: var(--admin-header-height);
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  border-bottom: 1px solid var(--admin-border);
+  font-family: var(--admin-font-serif);
+  font-size: 1.25rem;
+  color: var(--admin-text-main);
+  gap: 0.6rem;
+}
+
+.admin-sidebar__header i {
+  color: var(--admin-gold);
+}
+
+.admin-sidebar__nav {
+  flex-grow: 1;
+  padding: 1.5rem 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.admin-sidebar__link {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1rem;
+  border-radius: var(--admin-radius-md);
+  color: var(--admin-text-secondary);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: var(--admin-transition);
+}
+
+.admin-sidebar__link:hover {
+  background-color: var(--admin-bg);
+  color: var(--admin-text-main);
+}
+
+.admin-sidebar__link.active {
+  background-color: var(--admin-gold-light);
+  color: var(--admin-gold-dark);
+}
+
+.admin-sidebar__link.active i {
+  color: var(--admin-gold-dark);
+}
+
+.admin-sidebar__link i {
+  width: 1.25rem;
+  text-align: center;
+  color: var(--admin-text-muted);
+  font-size: 1.1rem;
+  transition: var(--admin-transition);
+}
+
+.admin-sidebar__footer {
+  padding: 1rem;
+  border-top: 1px solid var(--admin-border);
+}
+
+/* ============================================================
+   MAIN CONTENT WRAPPER
+   ============================================================ */
+.admin-main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100vh;
+}
+
+/* ============================================================
+   TOP NAVBAR
+   ============================================================ */
+.admin-header {
+  height: var(--admin-header-height);
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  z-index: 40;
+  flex-shrink: 0;
+}
+
+.admin-header__left, .admin-header__right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.admin-header__title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--admin-text-main);
+  margin: 0;
+}
+
+/* User Profile Badge */
+.admin-user {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background-color: var(--admin-bg);
+  padding: 0.35rem 0.85rem 0.35rem 0.35rem;
+  border-radius: var(--admin-radius-pill);
+  border: 1px solid var(--admin-border);
+}
+
+.admin-user__avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: var(--admin-gold);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.admin-user__name {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ============================================================
+   SCROLLABLE CONTENT AREA
+   ============================================================ */
+.admin-content {
+  flex-grow: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--admin-bg);
+}
+
+/* ============================================================
+   MOBILE TOGGLE & OVERLAY
+   ============================================================ */
+.admin-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  color: var(--admin-text-main);
+  cursor: pointer;
+}
+
+.admin-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.4);
+  z-index: 45;
+  backdrop-filter: blur(2px);
+}
+.admin-overlay.active {
+  display: block;
+}
+
+/* Responsive Offcanvas */
+@media (max-width: 1024px) {
+  .admin-sidebar {
+    position: fixed;
+    left: calc(var(--admin-sidebar-width) * -1);
+    top: 0;
+  }
+  .admin-sidebar.open {
+    left: 0;
+    box-shadow: var(--admin-shadow-xl);
+  }
+  .admin-menu-toggle {
+    display: block;
+  }
+  .admin-header {
+    padding: 0 1.25rem;
+  }
+  .admin-content {
+    padding: 1.5rem 1rem;
+  }
+}

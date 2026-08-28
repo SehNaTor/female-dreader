@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services &amp; Pricing — Female Dreader</title>
+  <meta name="description" content="Explore our professional dreadlock, braiding, Ghana weaving, nails and beauty services with transparent pricing. Book your appointment today at Female Dreader, Lagos.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/service.css">
+  <link rel="stylesheet" href="css/booking-modal.css">
+  <link rel="stylesheet" href="css/footer.css">
+</head>
+<body>
+
+  <div class="main-container">
+    <div id="navbar-container"></div>
+
+    <main id="services-main">
+
+      <!-- ======================================
+           SECTION 1: HERO
+      ====================================== -->
+      <section class="svc-hero" aria-labelledby="svc-hero-heading">
+        <div class="svc-hero__backdrop" aria-hidden="true"></div>
+        <div class="svc-hero__overlay" aria-hidden="true"></div>
+        <div class="svc-hero__particles" aria-hidden="true">
+          <span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <div class="svc-hero__content">
+          <span class="svc-hero__eyebrow">
+            <i class="fa-solid fa-scissors" aria-hidden="true"></i>
+            Services &amp; Pricing
+          </span>
+          <h1 id="svc-hero-heading" class="svc-hero__heading">
+            Premium Hair &amp;<br>Beauty Services
+          </h1>
+          <p class="svc-hero__description">
+            Professional dreadlock installation, maintenance, braiding, Ghana weaving,
+            nails and beauty treatments all with clear, transparent pricing.
+          </p>
+          <div class="svc-hero__cta-group">
+            <a href="#services-catalog" class="svc-btn svc-btn--primary" aria-label="Browse all services">
+              <i class="fa-solid fa-sparkles" aria-hidden="true"></i>
+              Explore Services
+            </a>
+            <a
+              href="products.html"
+              class="svc-btn svc-btn--ghost"
+              aria-label="Shop Products"
+              id="hero-book-btn"
+            >
+              Shop Products
+              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </a>
+          </div>
+          <div class="svc-hero__trust" aria-label="Trust indicators">
+            <div class="svc-trust-pill">
+              <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+              Quality Guarantee
+            </div>
+            <div class="svc-trust-pill">
+              <i class="fa-solid fa-star" aria-hidden="true"></i>
+              5-Star Rated
+            </div>
+            <div class="svc-trust-pill">
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              Flexible Scheduling
+            </div>
+          </div>
+        </div>
+        <div class="svc-hero__scroll" aria-hidden="true">
+          <span></span>
+        </div>
+      </section>
+
+      <!-- ======================================
+           SECTION 2: CATEGORY FILTERS
+      ====================================== -->
+      <section class="svc-filter-section" aria-label="Filter services by category" id="svc-filters">
+        <div class="svc-filter__container">
+          <div class="svc-filter__label">
+            <i class="fa-solid fa-filter" aria-hidden="true"></i>
+            Filter by Category:
+          </div>
+          <nav class="svc-filter__nav" role="navigation" aria-label="Service category filters">
+            <button class="svc-filter-pill svc-filter-pill--active" data-category="all" aria-pressed="true" aria-label="Show all services" id="filter-all">
+              <span class="svc-filter-pill__dot"></span>
+              All Services
+            </button>
+            <button class="svc-filter-pill" data-category="Locs" aria-pressed="false" aria-label="Filter by Locs" id="filter-locs">
+              <span class="svc-filter-pill__dot"></span>
+              Locs
+            </button>
+            <button class="svc-filter-pill" data-category="Braiding" aria-pressed="false" aria-label="Filter by Braiding" id="filter-braiding">
+              <span class="svc-filter-pill__dot"></span>
+              Braiding
+            </button>
+            <button class="svc-filter-pill" data-category="Ghana Weaving" aria-pressed="false" aria-label="Filter by Ghana Weaving" id="filter-ghana-weaving">
+              <span class="svc-filter-pill__dot"></span>
+              Ghana Weaving
+            </button>
+            <button class="svc-filter-pill" data-category="Cornrows" aria-pressed="false" aria-label="Filter by Cornrows" id="filter-cornrows">
+              <span class="svc-filter-pill__dot"></span>
+              Cornrows
+            </button>
+            <button class="svc-filter-pill" data-category="Stitch Braids" aria-pressed="false" aria-label="Filter by Stitch Braids" id="filter-stitch-braids">
+              <span class="svc-filter-pill__dot"></span>
+              Stitch Braids
+            </button>
+            <button class="svc-filter-pill" data-category="Wig Installation" aria-pressed="false" aria-label="Filter by Wig Installation" id="filter-wig-installation">
+              <span class="svc-filter-pill__dot"></span>
+              Wig Installation
+            </button>
+            <button class="svc-filter-pill" data-category="Manicure" aria-pressed="false" aria-label="Filter by Manicure" id="filter-manicure">
+              <span class="svc-filter-pill__dot"></span>
+              Manicure
+            </button>
+            <button class="svc-filter-pill" data-category="Pedicure" aria-pressed="false" aria-label="Filter by Pedicure" id="filter-pedicure">
+              <span class="svc-filter-pill__dot"></span>
+              Pedicure
+            </button>
+            <button class="svc-filter-pill" data-category="Nails" aria-pressed="false" aria-label="Filter by Nails" id="filter-nails">
+              <span class="svc-filter-pill__dot"></span>
+              Nails
+            </button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ======================================
+           SECTION 3: FEATURED SERVICES
+      ====================================== -->
+      <section class="svc-featured-section" aria-labelledby="svc-featured-heading" id="featured-services">
+        <div class="svc-section-container">
+          <div class="svc-section-header">
+            <span class="svc-section-eyebrow">
+              <i class="fa-solid fa-crown" aria-hidden="true"></i>
+              Best Sellers
+            </span>
+            <h2 id="svc-featured-heading" class="svc-section-heading">Featured Services</h2>
+            <p class="svc-section-subheading">Our most-loved, highest-rated services hand-picked for you.</p>
+          </div>
+
+          <!-- Featured Skeletons -->
+          <div id="featured-loading" class="svc-featured-grid" aria-label="Loading featured services" aria-live="polite">
+            <div class="svc-skeleton svc-skeleton--featured" aria-hidden="true">
+              <div class="svc-skeleton__img"></div>
+              <div class="svc-skeleton__body">
+                <div class="svc-skeleton__line svc-skeleton__line--sm"></div>
+                <div class="svc-skeleton__line svc-skeleton__line--lg"></div>
+                <div class="svc-skeleton__line svc-skeleton__line--md"></div>
+                <div class="svc-skeleton__line svc-skeleton__line--sm"></div>
+                <div class="svc-skeleton__line svc-skeleton__line--price"></div>
+                <div class="svc-skeleton__line svc-skeleton__line--btn"></div>
+              </div>
+            </div>
+            <div class="svc-skeleton svc-skeleton--featured" aria-hidden="true">
+              <div class="svc-skeleton__img"></div>
+              <div class="svc-skeleton__body">
+                <div class="svc-skeleton__line svc-skeleton__line--sm"></div>
+                <div class="svc-skeleton__line svc-skeleton__line--lg"></div>
+                <div class="svc-skeleton__line svc-skeleton__line--md"></div>
+                <div class="svc-skeleton__line svc-skeleton__line--sm"></div>
+                <div class="svc-skeleton__line svc-skeleton__line--price"></div>
+                <div class="svc-skeleton__line svc-skeleton__line--btn"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Featured Grid (JS renders) -->
+          <div id="featured-grid" class="svc-featured-grid" role="list" aria-label="Featured services" hidden></div>
+
+          <!-- Featured Empty -->
+          <div id="featured-empty" class="svc-empty-state" hidden aria-live="polite">
+            <i class="fa-regular fa-star svc-empty-state__icon" aria-hidden="true"></i>
+            <p class="svc-empty-state__text">No featured services available right now.</p>
+          </div>
+
+          <!-- Featured Error -->
+          <div id="featured-error" class="svc-error-state" hidden aria-live="assertive">
+            <i class="fa-solid fa-triangle-exclamation svc-error-state__icon" aria-hidden="true"></i>
+            <p class="svc-error-state__text">Failed to load featured services.</p>
+            <button class="svc-btn svc-btn--outline" id="featured-retry" aria-label="Retry loading featured services">
+              <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+              Try Again
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================
+           SECTION 4: ALL SERVICES CATALOG
+      ====================================== -->
+      <section class="svc-catalog-section" aria-labelledby="svc-catalog-heading" id="services-catalog">
+        <div class="svc-section-container">
+          <div class="svc-section-header">
+            <span class="svc-section-eyebrow">
+              <i class="fa-solid fa-list" aria-hidden="true"></i>
+              Full Catalog
+            </span>
+            <h2 id="svc-catalog-heading" class="svc-section-heading">All Services</h2>
+            <p class="svc-section-subheading">Every service we offer — professionally delivered, competitively priced.</p>
+          </div>
+
+          <!-- Result Count -->
+          <div class="svc-catalog-meta" aria-live="polite">
+            <span id="catalog-count" class="svc-catalog-count"></span>
+          </div>
+
+          <!-- Catalog Skeletons -->
+          <div id="catalog-loading" class="svc-catalog-grid" aria-label="Loading services" aria-live="polite">
+            <div class="svc-skeleton" aria-hidden="true"><div class="svc-skeleton__img"></div><div class="svc-skeleton__body"><div class="svc-skeleton__line svc-skeleton__line--sm"></div><div class="svc-skeleton__line svc-skeleton__line--lg"></div><div class="svc-skeleton__line svc-skeleton__line--md"></div><div class="svc-skeleton__line svc-skeleton__line--price"></div><div class="svc-skeleton__line svc-skeleton__line--btn"></div></div></div>
+            <div class="svc-skeleton" aria-hidden="true"><div class="svc-skeleton__img"></div><div class="svc-skeleton__body"><div class="svc-skeleton__line svc-skeleton__line--sm"></div><div class="svc-skeleton__line svc-skeleton__line--lg"></div><div class="svc-skeleton__line svc-skeleton__line--md"></div><div class="svc-skeleton__line svc-skeleton__line--price"></div><div class="svc-skeleton__line svc-skeleton__line--btn"></div></div></div>
+            <div class="svc-skeleton" aria-hidden="true"><div class="svc-skeleton__img"></div><div class="svc-skeleton__body"><div class="svc-skeleton__line svc-skeleton__line--sm"></div><div class="svc-skeleton__line svc-skeleton__line--lg"></div><div class="svc-skeleton__line svc-skeleton__line--md"></div><div class="svc-skeleton__line svc-skeleton__line--price"></div><div class="svc-skeleton__line svc-skeleton__line--btn"></div></div></div>
+            <div class="svc-skeleton" aria-hidden="true"><div class="svc-skeleton__img"></div><div class="svc-skeleton__body"><div class="svc-skeleton__line svc-skeleton__line--sm"></div><div class="svc-skeleton__line svc-skeleton__line--lg"></div><div class="svc-skeleton__line svc-skeleton__line--md"></div><div class="svc-skeleton__line svc-skeleton__line--price"></div><div class="svc-skeleton__line svc-skeleton__line--btn"></div></div></div>
+            <div class="svc-skeleton" aria-hidden="true"><div class="svc-skeleton__img"></div><div class="svc-skeleton__body"><div class="svc-skeleton__line svc-skeleton__line--sm"></div><div class="svc-skeleton__line svc-skeleton__line--lg"></div><div class="svc-skeleton__line svc-skeleton__line--md"></div><div class="svc-skeleton__line svc-skeleton__line--price"></div><div class="svc-skeleton__line svc-skeleton__line--btn"></div></div></div>
+            <div class="svc-skeleton" aria-hidden="true"><div class="svc-skeleton__img"></div><div class="svc-skeleton__body"><div class="svc-skeleton__line svc-skeleton__line--sm"></div><div class="svc-skeleton__line svc-skeleton__line--lg"></div><div class="svc-skeleton__line svc-skeleton__line--md"></div><div class="svc-skeleton__line svc-skeleton__line--price"></div><div class="svc-skeleton__line svc-skeleton__line--btn"></div></div></div>
+          </div>
+
+          <!-- Catalog Grid (JS renders) -->
+          <div id="catalog-grid" class="svc-catalog-grid" role="list" aria-label="All services" hidden></div>
+
+          <!-- Catalog Empty -->
+          <div id="catalog-empty" class="svc-empty-state" hidden aria-live="polite">
+            <div class="svc-empty-state__illustration" aria-hidden="true">
+              <i class="fa-regular fa-folder-open svc-empty-state__icon"></i>
+            </div>
+            <h3 class="svc-empty-state__heading">No Services Found</h3>
+            <p class="svc-empty-state__text">No services match the selected category. Try a different filter.</p>
+            <button class="svc-btn svc-btn--outline" id="empty-reset" aria-label="Show all services">
+              <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+              Show All Services
+            </button>
+          </div>
+
+          <!-- Catalog Error -->
+          <div id="catalog-error" class="svc-error-state" hidden aria-live="assertive">
+            <div class="svc-error-state__illustration" aria-hidden="true">
+              <i class="fa-solid fa-circle-exclamation svc-error-state__icon"></i>
+            </div>
+            <h3 class="svc-error-state__heading">Something Went Wrong</h3>
+            <p class="svc-error-state__text">We couldn't load the service catalog. Please check your connection and try again.</p>
+            <button class="svc-btn svc-btn--outline" id="catalog-retry" aria-label="Retry loading services">
+              <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+              Retry
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================
+           SECTION 5: FINAL CTA
+      ====================================== -->
+      <section class="svc-cta-section" aria-labelledby="svc-cta-heading">
+        <div class="svc-cta__backdrop" aria-hidden="true"></div>
+        <div class="svc-cta__content">
+          <span class="svc-cta__eyebrow" aria-hidden="true">
+            <i class="fa-solid fa-scissors"></i>
+          </span>
+          <h2 id="svc-cta-heading" class="svc-cta__heading">
+            Ready For Your<br>Next Look?
+          </h2>
+          <p class="svc-cta__subheading">
+            Book your appointment today and let Female Dreader help you achieve
+            your desired style with confidence.
+          </p>
+          <div class="svc-cta__buttons">
+            <button
+              type="button"
+              class="svc-btn svc-btn--primary svc-btn--large"
+              data-book-service='{}'
+              aria-label="Book your appointment"
+              id="cta-book-btn"
+            >
+              <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+              Book Appointment
+            </button>
+            <a href="contact.html" class="svc-btn svc-btn--ghost-dark svc-btn--large" aria-label="Contact us">
+              <i class="fa-solid fa-comment-dots" aria-hidden="true"></i>
+              Contact Us
+            </a>
+          </div>
+          <div class="svc-cta__social-proof">
+            <div class="svc-social-proof-stars" aria-label="Five star rating">★★★★★</div>
+            <span>Trusted by satisfied clients across Lagos</span>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <div id="footer-container"></div>
+
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="js/scroll/scroll-init.js"></script>
+
+  <!-- Navbar Script -->
+  <script src="js/navbar.js"></script>
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Component Loader -->
+  <script type="module" src="js/components.js"></script>
+
+  <!-- Services Page Module (includes booking modal init) -->
+  <script type="module" src="js/services-data.js"></script>
+
+</body>
+</html>

@@ -145,7 +145,7 @@ body {
   height: 34px;
   border-radius: 50%;
   background-color: var(--admin-gold);
-  color: #fff;
+  color: var(--color-white);
   display: flex;
   align-items: center;
   justify-content: center;

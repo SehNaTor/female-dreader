@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroAnimation();
 
   /* -- Global Scroll Reveal Animations ------------------------------------ */
-  const animatedElements = document.querySelectorAll('.fade-in, .trust-item, .so-item');
+  const animatedElements = document.querySelectorAll('.fade-in, .so-item');
   if (animatedElements.length > 0) {
     const globalRevealObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry, index) => {
@@ -316,11 +316,11 @@ document.addEventListener('DOMContentLoaded', () => {
   TransformationsCarousel.init();
 
   /* -- Testimonials ------------------------------------------------------- */
-  const form             = document.getElementById('testimonial-form');
+  const form      = document.getElementById('testimonial-form');
   const clientNameInput  = document.getElementById('client-name');
   const clientRatingInput = document.getElementById('client-rating');
   const clientReviewInput = document.getElementById('client-review');
-  const submitBtn        = document.getElementById('submit-review-btn');
+  const submitBtn  = document.getElementById('submit-review-btn');
   const notificationArea = document.getElementById('form-notification');
   const testimonialGrid  = document.getElementById('testimonial-grid');
   const loadingIndicator = document.getElementById('testimonial-loading');

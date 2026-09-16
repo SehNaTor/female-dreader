@@ -377,7 +377,7 @@
   height: 52px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--admin-gold) 0%, var(--admin-gold-dark) 100%);
-  color: #fff;
+  color: var(--color-white);
   font-size: 1.4rem;
   font-weight: 700;
   display: flex;
@@ -549,7 +549,7 @@
 
 .bm-action-btn--confirm:hover:not(:disabled) {
   background-color: var(--admin-info);
-  color: #fff;
+  color: var(--color-white);
   border-color: var(--admin-info);
 }
 
@@ -561,7 +561,7 @@
 
 .bm-action-btn--complete:hover:not(:disabled) {
   background-color: var(--admin-success);
-  color: #fff;
+  color: var(--color-white);
   border-color: var(--admin-success);
 }
 
@@ -573,7 +573,7 @@
 
 .bm-action-btn--cancel:hover:not(:disabled) {
   background-color: var(--admin-danger);
-  color: #fff;
+  color: var(--color-white);
   border-color: var(--admin-danger);
 }
 
@@ -585,7 +585,7 @@
 
 .bm-action-btn--reschedule:hover:not(:disabled) {
   background-color: #7c3aed;
-  color: #fff;
+  color: var(--color-white);
   border-color: #7c3aed;
 }
 
@@ -641,7 +641,7 @@
 
 .bm-timeline__item--active .bm-timeline__dot {
   background: linear-gradient(135deg, var(--admin-gold) 0%, var(--admin-gold-dark) 100%);
-  color: #fff;
+  color: var(--color-white);
   box-shadow: 0 2px 8px rgba(201, 169, 110, 0.4);
 }
 

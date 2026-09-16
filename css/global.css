@@ -1,0 +1,128 @@
+/* ============================================================
+   FEMALE DREADER — GLOBAL STYLES & DESIGN TOKENS
+   css/global.css
+   ============================================================ */
+
+:root {
+  /* --- Brand Palette --- */
+  --color-gold:          #c9a96e;
+  --color-gold-dark:     #a8833a;
+  --color-gold-light:    #f0e4c8;
+  --color-gold-subtle:   rgba(201, 169, 110, 0.12);
+  
+  --color-black:         #0a0a0a;
+  --color-dark:          #121212;
+  --color-charcoal:      #1c1c1c;
+  
+  --color-bg-light:      #f9f7f3; /* Unified off-white/cream */
+  --color-bg-light-alt:  #f0ece4;
+  --color-white:         #ffffff;
+
+  /* Status Colors */
+  --color-error:         #d94545;
+  --color-error-bg:      rgba(217, 69, 69, 0.08);
+  --color-success:       #2ecc71;
+  --color-success-bg:    rgba(46, 204, 113, 0.1);
+
+  /* --- Typography --- */
+  --font-primary:        'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-secondary:      'Playfair Display', Georgia, serif;
+
+  /* --- Text Colors --- */
+  --color-text-primary:   #1a1a1a;
+  --color-text-secondary: #555555;
+  --color-text-muted:     #9a9a9a;
+  --color-text-on-dark:   rgba(255, 255, 255, 0.9);
+  --color-text-on-dark-muted: rgba(255, 255, 255, 0.65);
+
+  /* --- Borders & Shadows --- */
+  --color-border:        #e8e2d9;
+  --color-border-light:  #f0ece5;
+  --color-border-focus:  var(--color-gold);
+  
+  --shadow-sm:           0 2px 12px rgba(0, 0, 0, 0.06);
+  --shadow-md:           0 4px 24px rgba(0, 0, 0, 0.08);
+  --shadow-lg:           0 16px 48px rgba(0, 0, 0, 0.13);
+  --shadow-xl:           0 24px 64px rgba(0, 0, 0, 0.18);
+  --shadow-modal:        0 32px 96px rgba(0, 0, 0, 0.4), 0 12px 40px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.06);
+
+  /* --- Radius --- */
+  --radius-xs:           8px;
+  --radius-sm:           12px;
+  --radius-md:           16px;
+  --radius-lg:           20px;
+  --radius-xl:           24px;
+  --radius-pill:         999px;
+
+  /* --- Motion & Transitions --- */
+  --transition-ease:         cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-ease-out:     cubic-bezier(0, 0, 0.2, 1);
+  --transition-ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-fast:         0.18s;
+  --transition-base:         0.32s;
+  --transition-slow:         0.55s;
+  --transition-all-base:     all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  /* --- Layout --- */
+  --layout-max-width:    1280px;
+  --layout-px:           2rem;
+
+  /* --- Z-Index --- */
+  --nav-z:               100;
+  --nav-z-overlay:       101;
+  --nav-z-drawer:        102;
+
+  /* --- Typography Scale (Fluid) --- */
+  --text-xs: clamp(0.7rem, 0.65rem + 0.25vw, 0.75rem);
+  --text-sm: clamp(0.8rem, 0.75rem + 0.25vw, 0.875rem);
+  --text-base: clamp(0.95rem, 0.9rem + 0.25vw, 1rem);
+  --text-lg: clamp(1.1rem, 1.05rem + 0.25vw, 1.15rem);
+  --text-xl: clamp(1.25rem, 1.2rem + 0.25vw, 1.35rem);
+  --text-2xl: clamp(1.5rem, 1.4rem + 0.5vw, 1.75rem);
+  --text-3xl: clamp(1.8rem, 1.6rem + 1vw, 2.2rem);
+  --text-4xl: clamp(2.2rem, 1.8rem + 1.5vw, 3rem);
+  --text-5xl: clamp(2.8rem, 2.2rem + 2vw, 4rem);
+  --text-6xl: clamp(3.5rem, 2.8rem + 3vw, 5rem);
+
+  /* --- Spacing Scale --- */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs:  0.75rem;
+  --space-sm:  1rem;
+  --space-md:  1.5rem;
+  --space-lg:  2rem;
+  --space-xl:  2.5rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 5rem;
+  --space-5xl: 8rem;
+}
+
+/* ============================================================
+   GLOBAL RESETS
+   ============================================================ */
+*, *::before, *::after { 
+  box-sizing: border-box; 
+}
+
+body {
+  font-family: var(--font-primary);
+  color: var(--color-text-primary);
+  background: var(--color-bg-light);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  overflow-x: clip; /* standardizes overflow handling without breaking sticky */
+}
+
+/* Global Hidden Utility */
+[hidden] {
+  display: none !important;
+}
+
+/* Global Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-secondary);
+  margin-top: 0;
+}

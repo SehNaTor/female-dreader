@@ -88,7 +88,7 @@
   height: 56px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--admin-gold) 0%, var(--admin-gold-dark) 100%);
-  color: #fff;
+  color: var(--color-white);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -183,7 +183,7 @@
 
 .img-uploader__action-btn--replace {
   background-color: rgba(255, 255, 255, 0.2);
-  color: #fff;
+  color: var(--color-white);
 }
 
 .img-uploader__action-btn--replace:hover {
@@ -197,7 +197,7 @@
 
 .img-uploader__action-btn--remove:hover {
   background-color: rgba(239, 68, 68, 0.5);
-  color: #fff;
+  color: var(--color-white);
 }
 
 /* ── Upload Progress ────────────────────────────────────────── */
@@ -262,7 +262,7 @@
   gap: 0.35rem;
   padding: 0.35rem 0.7rem;
   background-color: var(--admin-success);
-  color: #fff;
+  color: var(--color-white);
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;

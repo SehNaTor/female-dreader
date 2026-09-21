@@ -16,7 +16,6 @@ body.bm-body-locked {
   overflow: hidden;
   height: 100%;
   overscroll-behavior: none;
-  touch-action: none;
 }
 
 /* ==========================================================================
@@ -37,6 +36,10 @@ body.bm-body-locked {
 .bm-overlay--open {
   opacity: 1;
   pointer-events: auto;
+}
+
+.bm-overlay {
+  touch-action: none;
 }
 
 /* ==========================================================================
@@ -72,6 +75,7 @@ body.bm-body-locked {
   flex-direction: column;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
+  touch-action: pan-y;
   transform: translateY(100%);
   transition: transform var(--bm-dur) var(--bm-ease-spring);
   scrollbar-width: thin;
@@ -89,6 +93,7 @@ body.bm-body-locked {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
+  touch-action: pan-y;
   padding-bottom: calc(var(--space-sm) + env(safe-area-inset-bottom, 0));
 }
 

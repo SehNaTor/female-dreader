@@ -233,8 +233,10 @@ body {
 
 .svc-hero__heading {
   font-family: var(--font-secondary);
-  font-size: clamp(2.8rem, 7vw, 5rem);
-  font-weight: 800;
+  /* font-size: clamp(2.8rem, 7vw, 5rem);
+  font-weight: 800; */
+  /* font-size: var(--text-5xl); */
+  font-size: var(--text-3xl);
   color: var(--color-white);
   line-height: 1.1;
   margin: 0 0 1.5rem;
@@ -242,11 +244,13 @@ body {
 }
 
 .svc-hero__description {
-  font-size: clamp(1rem, 2vw, 1.15rem);
-  color: var(--svc-text-on-dark-muted);
+   font-size: var(--text-lg);
+  /* color: var(--svc-text-on-dark-muted); */
+   color: var(--color-border);
+  max-width: 700px;
   line-height: 1.75;
   margin: 0 0 2.5rem;
-  max-width: 580px;
+ 
   margin-left: auto;
   margin-right: auto;
 }

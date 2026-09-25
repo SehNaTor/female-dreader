@@ -1,4 +1,4 @@
-﻿/* ==========================================================================
+/* ==========================================================================
    FEMALE DREADER — SERVICES & PRICING PAGE
    js/services-data.js
 
@@ -12,6 +12,13 @@
    2. All Services Catalog — services WHERE active = true (filterable by category)
 
    Booking: Modal launched directly from cards. No page redirect.
+
+   Performance optimizations:
+   - IntersectionObserver-based card reveal (no animation-delay stacking)
+   - DocumentFragment batch DOM insertions
+   - Debounced scroll events
+   - GPU-composited animations via CSS classes
+   - Mobile dropdown filter with outside-click dismissal
    ========================================================================== */
 
 import { supabase } from './supabase.js';
@@ -49,9 +56,20 @@ const DOM = {
   catalogCount    : document.getElementById('catalog-count'),
   emptyReset      : document.getElementById('empty-reset'),
 
-  filterPills     : document.querySelectorAll('.svc-filter-pill'),
+  filterPills     : document.querySelectorAll('.svc-filter__nav .svc-filter-pill'),
   filterSection   : document.getElementById('svc-filters'),
+
+  /* Mobile filter dropdown elements */
+  mobileToggle    : document.getElementById('filter-mobile-toggle'),
+  filterDropdown  : document.getElementById('filter-dropdown'),
+  dropdownGrid    : document.getElementById('filter-dropdown-grid'),
+  activeLabel     : null, // set after mobile toggle is found
 };
+
+/* Cache the active label span inside the mobile toggle */
+if (DOM.mobileToggle) {
+  DOM.activeLabel = DOM.mobileToggle.querySelector('.svc-filter__active-label');
+}
 
 /* ==========================================================================
    VISIBILITY HELPERS
@@ -158,6 +176,25 @@ const imageObserver = new IntersectionObserver(
 );
 
 /* ==========================================================================
+   CARD REVEAL — IntersectionObserver
+   Replaces animation-delay stacking with on-demand GPU-composited reveals.
+   Cards start hidden (opacity:0, transform:translateY) and get the
+   .svc-card--visible class when they enter the viewport.
+   ========================================================================== */
+
+const cardRevealObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('svc-card--visible');
+        cardRevealObserver.unobserve(entry.target);
+      }
+    });
+  },
+  { rootMargin: '50px 0px', threshold: 0.05 }
+);
+
+/* ==========================================================================
    CARD BUILDER — FEATURED SERVICE CARD
    ========================================================================== */
 
@@ -251,6 +288,7 @@ const buildFeaturedCard = (service) => {
 
 /* ==========================================================================
    CARD BUILDER — CATALOG SERVICE CARD
+   Uses IntersectionObserver for staggered reveal instead of CSS animation-delay
    ========================================================================== */
 
 const buildCatalogCard = (service, staggerIndex = 0) => {
@@ -276,8 +314,9 @@ const buildCatalogCard = (service, staggerIndex = 0) => {
   article.setAttribute('aria-label', name + ' \u2014 ' + price);
   article.dataset.category = service.category ?? '';
 
-  const delay = Math.min(staggerIndex * 0.065, 0.45);
-  article.style.animationDelay = delay + 's';
+  /* Stagger the reveal animation via CSS custom property */
+  const delay = Math.min(staggerIndex * 0.06, 0.4);
+  article.style.setProperty('--reveal-delay', delay + 's');
 
   article.innerHTML = `
     <div class="svc-card__img-wrap">
@@ -335,6 +374,9 @@ const buildCatalogCard = (service, staggerIndex = 0) => {
   const lazyImg = article.querySelector('.img-lazy');
   if (lazyImg) imageObserver.observe(lazyImg);
 
+  /* Observe for scroll-triggered reveal */
+  cardRevealObserver.observe(article);
+
   return article;
 };
 
@@ -348,10 +390,13 @@ const renderFeatured = () => {
     return;
   }
 
-  DOM.featuredGrid.innerHTML = '';
+  const fragment = document.createDocumentFragment();
   state.featured.forEach((service) => {
-    DOM.featuredGrid.appendChild(buildFeaturedCard(service));
+    fragment.appendChild(buildFeaturedCard(service));
   });
+
+  DOM.featuredGrid.innerHTML = '';
+  DOM.featuredGrid.appendChild(fragment);
 
   setFeaturedPanel('content');
 };
@@ -359,6 +404,7 @@ const renderFeatured = () => {
 /* ==========================================================================
    RENDER — SERVICES CATALOG
    Called on initial load AND on every category filter change.
+   Uses DocumentFragment for batch DOM insertion (avoids layout thrashing).
    ========================================================================== */
 
 const renderCatalog = () => {
@@ -383,10 +429,14 @@ const renderCatalog = () => {
     return;
   }
 
-  DOM.catalogGrid.innerHTML = '';
+  /* Batch DOM insertion via DocumentFragment */
+  const fragment = document.createDocumentFragment();
   state.filtered.forEach((service, idx) => {
-    DOM.catalogGrid.appendChild(buildCatalogCard(service, idx));
+    fragment.appendChild(buildCatalogCard(service, idx));
   });
+
+  DOM.catalogGrid.innerHTML = '';
+  DOM.catalogGrid.appendChild(fragment);
 
   setCatalogPanel('content');
 };
@@ -431,6 +481,9 @@ const fetchServices = async () => {
     renderFeatured();
     renderCatalog();
 
+    /* After data loads, inject category counts into filter pills */
+    updateFilterCounts();
+
   } catch (err) {
     console.error('[Female Dreader Services] Fetch failed:', err);
     state.isLoading = false;
@@ -441,25 +494,151 @@ const fetchServices = async () => {
 };
 
 /* ==========================================================================
+   FILTER COUNTS — Badge showing how many services per category
+   ========================================================================== */
+
+const updateFilterCounts = () => {
+  /* Count services per category */
+  const counts = { all: state.allServices.length };
+  state.allServices.forEach((s) => {
+    const cat = (s.category ?? '').trim();
+    if (cat) {
+      counts[cat] = (counts[cat] || 0) + 1;
+    }
+  });
+
+  /* Update desktop pills */
+  DOM.filterPills.forEach((pill) => {
+    const cat = pill.dataset.category;
+    const count = cat === 'all' ? counts.all : (counts[cat] || 0);
+
+    /* Remove existing count badge if any */
+    const existing = pill.querySelector('.svc-filter-pill__count');
+    if (existing) existing.remove();
+
+    const badge = document.createElement('span');
+    badge.className = 'svc-filter-pill__count';
+    badge.textContent = count;
+    pill.appendChild(badge);
+  });
+
+  /* Update dropdown pills */
+  if (DOM.dropdownGrid) {
+    DOM.dropdownGrid.querySelectorAll('.svc-filter-pill').forEach((pill) => {
+      const cat = pill.dataset.category;
+      const count = cat === 'all' ? counts.all : (counts[cat] || 0);
+
+      const existing = pill.querySelector('.svc-filter-pill__count');
+      if (existing) existing.remove();
+
+      const badge = document.createElement('span');
+      badge.className = 'svc-filter-pill__count';
+      badge.textContent = count;
+      pill.appendChild(badge);
+    });
+  }
+};
+
+/* ==========================================================================
    CATEGORY FILTER
    ========================================================================== */
 
 const setActiveFilter = (category) => {
   state.activeCategory = category;
 
+  /* Update desktop pills */
   DOM.filterPills.forEach((pill) => {
     const isActive = pill.dataset.category === category;
     pill.classList.toggle('svc-filter-pill--active', isActive);
     pill.setAttribute('aria-pressed', String(isActive));
   });
 
+  /* Update dropdown pills */
+  if (DOM.dropdownGrid) {
+    DOM.dropdownGrid.querySelectorAll('.svc-filter-pill').forEach((pill) => {
+      const isActive = pill.dataset.category === category;
+      pill.classList.toggle('svc-filter-pill--active', isActive);
+      pill.setAttribute('aria-pressed', String(isActive));
+    });
+  }
+
+  /* Update mobile toggle label */
+  if (DOM.activeLabel) {
+    const activePill = document.querySelector(`.svc-filter__nav .svc-filter-pill[data-category="${category}"]`);
+    const labelText = activePill
+      ? activePill.textContent.replace(/\d+$/, '').trim()
+      : 'All Services';
+    DOM.activeLabel.textContent = labelText;
+  }
+
   renderCatalog();
 };
 
 const initFilters = () => {
+  /* Desktop inline pills */
   DOM.filterPills.forEach((pill) => {
     pill.addEventListener('click', () => setActiveFilter(pill.dataset.category));
   });
+};
+
+/* ==========================================================================
+   MOBILE FILTER DROPDOWN
+   Toggle button opens a dropdown with filter pills for small screens.
+   ========================================================================== */
+
+const initMobileFilter = () => {
+  if (!DOM.mobileToggle || !DOM.filterDropdown || !DOM.dropdownGrid) return;
+
+  /* Clone pills from the inline nav into the dropdown grid */
+  DOM.filterPills.forEach((pill) => {
+    const clone = pill.cloneNode(true);
+    /* Remove the id to avoid duplicates */
+    clone.removeAttribute('id');
+
+    clone.addEventListener('click', () => {
+      setActiveFilter(clone.dataset.category);
+      closeMobileDropdown();
+    });
+
+    DOM.dropdownGrid.appendChild(clone);
+  });
+
+  /* Toggle dropdown open/close */
+  DOM.mobileToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = DOM.filterDropdown.classList.contains('is-open');
+    if (isOpen) {
+      closeMobileDropdown();
+    } else {
+      openMobileDropdown();
+    }
+  });
+
+  /* Close on outside click */
+  document.addEventListener('click', (e) => {
+    if (!DOM.filterSection.contains(e.target)) {
+      closeMobileDropdown();
+    }
+  });
+
+  /* Close on Escape key */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeMobileDropdown();
+    }
+  });
+};
+
+const openMobileDropdown = () => {
+  DOM.filterDropdown.classList.add('is-open');
+  DOM.mobileToggle.classList.add('is-open');
+  DOM.mobileToggle.setAttribute('aria-expanded', 'true');
+};
+
+const closeMobileDropdown = () => {
+  DOM.filterDropdown.classList.remove('is-open');
+  DOM.mobileToggle.classList.remove('is-open');
+  DOM.mobileToggle.setAttribute('aria-expanded', 'false');
 };
 
 /* ==========================================================================
@@ -521,6 +700,7 @@ const initKeyboardNav = () => {
 
 document.addEventListener('DOMContentLoaded', () => {
   initFilters();
+  initMobileFilter();
   initEmptyReset();
   initRetryButtons();
   initStickyFilter();

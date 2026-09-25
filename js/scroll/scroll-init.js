@@ -65,7 +65,7 @@
       gestureOrientation: 'vertical',
       smoothWheel:        true,
       wheelMultiplier:    1.0,
-      touchMultiplier:    2.0,
+      touchMultiplier:    1.5,
       infinite:           false,
       autoRaf:            false,
     });

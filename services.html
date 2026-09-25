@@ -86,7 +86,7 @@
       </section>
 
       <!-- ======================================
-           SECTION 2: CATEGORY FILTERS
+           SECTION 2: CATEGORY FILTERS (Modernized SaaS-style)
       ====================================== -->
       <section class="svc-filter-section" aria-label="Filter services by category" id="svc-filters">
         <div class="svc-filter__container">
@@ -94,6 +94,22 @@
             <i class="fa-solid fa-filter" aria-hidden="true"></i>
             Filter by Category:
           </div>
+
+          <!-- Mobile: toggle button that opens dropdown -->
+          <button
+            type="button"
+            class="svc-filter__mobile-toggle"
+            id="filter-mobile-toggle"
+            aria-expanded="false"
+            aria-controls="filter-dropdown"
+            aria-label="Open category filter menu"
+          >
+            <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+            <span class="svc-filter__active-label">All Services</span>
+            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+          </button>
+
+          <!-- Desktop: horizontal scrollable nav -->
           <nav class="svc-filter__nav" role="navigation" aria-label="Service category filters">
             <button class="svc-filter-pill svc-filter-pill--active" data-category="all" aria-pressed="true" aria-label="Show all services" id="filter-all">
               <span class="svc-filter-pill__dot"></span>
@@ -136,6 +152,13 @@
               Nails
             </button>
           </nav>
+        </div>
+
+        <!-- Mobile dropdown panel -->
+        <div class="svc-filter__dropdown" id="filter-dropdown" aria-label="Category filters">
+          <div class="svc-filter__dropdown-grid" id="filter-dropdown-grid">
+            <!-- Pills are cloned here by JS from the nav -->
+          </div>
         </div>
       </section>
 

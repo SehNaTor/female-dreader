@@ -19,9 +19,21 @@ const galleryLoading = document.getElementById('galleryLoading');
 const emptyState = document.getElementById('emptyState');
 const errorState = document.getElementById('errorState');
 const errorMessage = document.getElementById('errorMessage');
-const filterPills = document.getElementById('filterPills');
 const featuredWorksSection = document.getElementById('featuredWorksSection');
 const featuredGrid = document.getElementById('featuredGrid');
+
+/* Filter elements (SaaS-style — matching Products & Services pages) */
+const filterSection = document.getElementById('gal-filters');
+const filterNav = document.querySelector('.gal-filter__nav');
+const filterPills = filterNav
+  ? filterNav.querySelectorAll('.gal-filter-pill')
+  : [];
+const mobileToggle = document.getElementById('gal-filter-mobile-toggle');
+const filterDropdown = document.getElementById('gal-filter-dropdown');
+const dropdownGrid = document.getElementById('gal-filter-dropdown-grid');
+const activeLabel = mobileToggle
+  ? mobileToggle.querySelector('.gal-filter__active-label')
+  : null;
 
 // Lightbox elements
 const lightbox = document.getElementById('lightbox');
@@ -41,6 +53,8 @@ const lightboxOverlay = document.getElementById('lightboxOverlay');
 document.addEventListener('DOMContentLoaded', async () => {
   await fetchGalleryData();
   setupEventListeners();
+  initMobileFilter();
+  initStickyFilter();
   renderFeaturedWorks();
   renderGalleryGrid();
   setupIntersectionObserver();
@@ -70,6 +84,7 @@ async function fetchGalleryData() {
     allGalleryItems = data;
     filteredItems = data;
     updateLightboxItems();
+    updateFilterCounts();
     hideLoadingState();
   } catch (error) {
     console.error('Error fetching gallery data:', error);
@@ -90,11 +105,9 @@ function updateLightboxItems() {
    ======================================== */
 
 function setupEventListeners() {
-  // Filter pills
-  filterPills.addEventListener('click', (e) => {
-    if (e.target.classList.contains('filter-pill')) {
-      handleFilterChange(e.target);
-    }
+  /* Desktop inline filter pills */
+  filterPills.forEach(pill => {
+    pill.addEventListener('click', () => setActiveFilter(pill.dataset.category));
   });
 
   // Lightbox navigation
@@ -108,41 +121,186 @@ function setupEventListeners() {
 }
 
 /* ========================================
-   FILTER FUNCTIONALITY
+   FILTER COUNTS — Badge showing how many items per category
    ======================================== */
 
-function handleFilterChange(button) {
-  // Update active state
-  document.querySelectorAll('.filter-pill').forEach(pill => {
-    pill.classList.remove('active');
+function updateFilterCounts() {
+  const counts = { all: allGalleryItems.length };
+  allGalleryItems.forEach((item) => {
+    const cat = (item.category ?? '').trim();
+    if (cat) {
+      counts[cat] = (counts[cat] || 0) + 1;
+    }
   });
-  button.classList.add('active');
 
-  // Update current filter
-  currentFilter = button.getAttribute('data-category');
+  /* Update desktop pills */
+  filterPills.forEach((pill) => {
+    const cat = pill.dataset.category;
+    const count = cat === 'all' ? counts.all : (counts[cat] || 0);
 
-  // Filter items
-  if (currentFilter === 'all') {
+    const existing = pill.querySelector('.gal-filter-pill__count');
+    if (existing) existing.remove();
+
+    const badge = document.createElement('span');
+    badge.className = 'gal-filter-pill__count';
+    badge.textContent = count;
+    pill.appendChild(badge);
+  });
+
+  /* Update dropdown pills */
+  if (dropdownGrid) {
+    dropdownGrid.querySelectorAll('.gal-filter-pill').forEach((pill) => {
+      const cat = pill.dataset.category;
+      const count = cat === 'all' ? counts.all : (counts[cat] || 0);
+
+      const existing = pill.querySelector('.gal-filter-pill__count');
+      if (existing) existing.remove();
+
+      const badge = document.createElement('span');
+      badge.className = 'gal-filter-pill__count';
+      badge.textContent = count;
+      pill.appendChild(badge);
+    });
+  }
+}
+
+/* ========================================
+   FILTER LOGIC (SaaS-style — mirrors Products & Services)
+   ======================================== */
+
+function setActiveFilter(category) {
+  currentFilter = category;
+
+  /* Update desktop pills */
+  filterPills.forEach(p => {
+    const isActive = p.dataset.category === category;
+    p.classList.toggle('gal-filter-pill--active', isActive);
+    p.setAttribute('aria-pressed', String(isActive));
+  });
+
+  /* Update dropdown pills */
+  if (dropdownGrid) {
+    dropdownGrid.querySelectorAll('.gal-filter-pill').forEach(p => {
+      const isActive = p.dataset.category === category;
+      p.classList.toggle('gal-filter-pill--active', isActive);
+      p.setAttribute('aria-pressed', String(isActive));
+    });
+  }
+
+  /* Update mobile toggle label */
+  if (activeLabel) {
+    const activePill = filterNav
+      ? filterNav.querySelector(`.gal-filter-pill[data-category="${category}"]`)
+      : null;
+    const labelText = activePill
+      ? activePill.textContent.replace(/\d+$/, '').trim()
+      : 'All';
+    activeLabel.textContent = labelText;
+  }
+
+  /* Filter items */
+  if (category === 'all') {
     filteredItems = allGalleryItems;
   } else {
     filteredItems = allGalleryItems.filter(
-      item => item.category === currentFilter
+      item => item.category === category
     );
   }
 
   updateLightboxItems();
 
-  // Re-render gallery
+  /* Re-render */
   renderGalleryGrid();
   renderFeaturedWorks();
 
-  // Scroll to gallery section
-  // Scroll to gallery section using Lenis if available
+  /* Scroll to gallery section using Lenis if available */
   if (window.FDScroll) {
     window.FDScroll.scrollTo(document.querySelector('.gallery-section'), { offset: -80 });
   } else {
     document.querySelector('.gallery-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+}
+
+/* ========================================
+   MOBILE FILTER DROPDOWN
+   Mirrors the Products & Services pattern.
+   ======================================== */
+
+function initMobileFilter() {
+  if (!mobileToggle || !filterDropdown || !dropdownGrid) return;
+
+  /* Clone pills from the inline nav into the dropdown grid */
+  filterPills.forEach((pill) => {
+    const clone = pill.cloneNode(true);
+    clone.removeAttribute('id');
+
+    clone.addEventListener('click', () => {
+      setActiveFilter(clone.dataset.category);
+      closeMobileDropdown();
+    });
+
+    dropdownGrid.appendChild(clone);
+  });
+
+  /* Toggle dropdown open/close */
+  mobileToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = filterDropdown.classList.contains('is-open');
+    if (isOpen) {
+      closeMobileDropdown();
+    } else {
+      openMobileDropdown();
+    }
+  });
+
+  /* Close on outside click */
+  document.addEventListener('click', (e) => {
+    if (filterSection && !filterSection.contains(e.target)) {
+      closeMobileDropdown();
+    }
+  });
+
+  /* Close on Escape key */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && filterDropdown.classList.contains('is-open')) {
+      closeMobileDropdown();
+    }
+  });
+}
+
+function openMobileDropdown() {
+  filterDropdown.classList.add('is-open');
+  mobileToggle.classList.add('is-open');
+  mobileToggle.setAttribute('aria-expanded', 'true');
+}
+
+function closeMobileDropdown() {
+  if (!filterDropdown || !mobileToggle) return;
+  filterDropdown.classList.remove('is-open');
+  mobileToggle.classList.remove('is-open');
+  mobileToggle.setAttribute('aria-expanded', 'false');
+}
+
+/* ========================================
+   STICKY FILTER BAR — SCROLL SHADOW
+   ======================================== */
+
+function initStickyFilter() {
+  if (!filterSection) return;
+
+  const sentinel = document.createElement('div');
+  sentinel.style.cssText = 'position:absolute;top:0;height:1px;width:1px;pointer-events:none;opacity:0;';
+  sentinel.setAttribute('aria-hidden', 'true');
+  document.body.prepend(sentinel);
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      filterSection.classList.toggle('scrolled', !entry.isIntersecting);
+    },
+    { threshold: 0, rootMargin: '0px' }
+  );
+
+  observer.observe(sentinel);
 }
 
 /* ========================================
@@ -461,7 +619,7 @@ function logError(error) {
 // Export for testing or external use
 export {
   fetchGalleryData,
-  handleFilterChange,
+  setActiveFilter as handleFilterChange,
   openLightbox,
   closeLightbox
 };

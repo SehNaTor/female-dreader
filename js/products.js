@@ -7,39 +7,70 @@ import { toast } from './toast.js';
 
 /* ======================================
    STATE
-====================================== */
+   ====================================== */
 let allProducts = [];
 let currentCategory = 'all';
 
-// Elements
-const featuredGrid = document.getElementById('featured-grid');
-const featuredEmpty = document.getElementById('featured-empty');
-const featuredError = document.getElementById('featured-error');
-const featuredRetryBtn = document.getElementById('featured-retry');
+/* ======================================
+   DOM REFERENCES
+   ====================================== */
+const DOM = {
+  featuredGrid    : document.getElementById('featured-grid'),
+  featuredEmpty   : document.getElementById('featured-empty'),
+  featuredError   : document.getElementById('featured-error'),
+  featuredRetry   : document.getElementById('featured-retry'),
 
-const catalogGrid = document.getElementById('catalog-grid');
-const catalogEmpty = document.getElementById('catalog-empty');
-const catalogError = document.getElementById('catalog-error');
-const catalogRetryBtn = document.getElementById('catalog-retry');
-const catalogCount = document.getElementById('catalog-count');
-const emptyResetBtn = document.getElementById('empty-reset');
+  catalogGrid     : document.getElementById('catalog-grid'),
+  catalogEmpty    : document.getElementById('catalog-empty'),
+  catalogError    : document.getElementById('catalog-error'),
+  catalogRetry    : document.getElementById('catalog-retry'),
+  catalogCount    : document.getElementById('catalog-count'),
+  emptyReset      : document.getElementById('empty-reset'),
 
-// Filter Elements
-const filterPills = document.querySelectorAll('.prd-filter-pill');
+  filterPills     : document.querySelectorAll('.prd-filter__nav .prd-filter-pill'),
+  filterSection   : document.getElementById('prd-filters'),
 
-// Modal Elements
-const detailsModal = document.getElementById('prd-details-modal');
-const orderModal = document.getElementById('prd-order-modal');
+  /* Mobile filter dropdown elements */
+  mobileToggle    : document.getElementById('prd-filter-mobile-toggle'),
+  filterDropdown  : document.getElementById('prd-filter-dropdown'),
+  dropdownGrid    : document.getElementById('prd-filter-dropdown-grid'),
+  activeLabel     : null,
+
+  /* Modals */
+  detailsModal    : document.getElementById('prd-details-modal'),
+  orderModal      : document.getElementById('prd-order-modal'),
+};
+
+/* Cache the active label span inside the mobile toggle */
+if (DOM.mobileToggle) {
+  DOM.activeLabel = DOM.mobileToggle.querySelector('.prd-filter__active-label');
+}
+
+/* ======================================
+   INTERSECTION OBSERVER — CARD REVEAL
+   Replaces immediate rendering with scroll-triggered GPU reveals.
+   ====================================== */
+const cardRevealObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('prd-card--visible');
+        cardRevealObserver.unobserve(entry.target);
+      }
+    });
+  },
+  { rootMargin: '50px 0px', threshold: 0.05 }
+);
 
 /* ======================================
    FETCH PRODUCTS
-====================================== */
+   ====================================== */
 async function fetchProducts() {
   try {
     // Show loading state by injecting skeletons directly into main grids
-    featuredEmpty.hidden = true;
-    featuredError.hidden = true;
-    featuredGrid.innerHTML = Array(4).fill('').map(() => `
+    DOM.featuredEmpty.hidden = true;
+    DOM.featuredError.hidden = true;
+    DOM.featuredGrid.innerHTML = Array(4).fill('').map(() => `
       <div class="prd-skeleton prd-skeleton--featured" aria-hidden="true">
         <div class="prd-skeleton__img"></div>
         <div class="prd-skeleton__body">
@@ -52,9 +83,9 @@ async function fetchProducts() {
       </div>
     `).join('');
 
-    catalogEmpty.hidden = true;
-    catalogError.hidden = true;
-    catalogGrid.innerHTML = Array(8).fill('').map(() => `
+    DOM.catalogEmpty.hidden = true;
+    DOM.catalogError.hidden = true;
+    DOM.catalogGrid.innerHTML = Array(8).fill('').map(() => `
       <div class="prd-skeleton" aria-hidden="true">
         <div class="prd-skeleton__img"></div>
         <div class="prd-skeleton__body">
@@ -88,20 +119,23 @@ async function fetchProducts() {
     renderFeaturedProducts();
     renderCatalogProducts();
 
+    /* After data loads, inject category counts into filter pills */
+    updateFilterCounts();
+
   } catch (error) {
     console.error('[Products] Fetch failed:', error);
 
-    featuredGrid.innerHTML = '';
-    featuredError.hidden = false;
+    DOM.featuredGrid.innerHTML = '';
+    DOM.featuredError.hidden = false;
 
-    catalogGrid.innerHTML = '';
-    catalogError.hidden = false;
+    DOM.catalogGrid.innerHTML = '';
+    DOM.catalogError.hidden = false;
   }
 }
 
 /* ======================================
    RENDER LOGIC
-====================================== */
+   ====================================== */
 function createProductCard(product) {
   const card = document.createElement('div');
   card.className = 'prd-card';
@@ -132,79 +166,231 @@ function createProductCard(product) {
     openDetailsModal(product);
   });
 
+  /* Observe for scroll-triggered reveal */
+  cardRevealObserver.observe(card);
+
   return card;
 }
 
 function renderFeaturedProducts() {
-  featuredGrid.innerHTML = '';
-  
   const featured = allProducts.filter(p => p.featured === true);
-  
+
   if (featured.length === 0) {
-    featuredEmpty.hidden = false;
+    DOM.featuredGrid.innerHTML = '';
+    DOM.featuredEmpty.hidden = false;
     return;
   }
 
+  /* Batch DOM insertion via DocumentFragment */
+  const fragment = document.createDocumentFragment();
   featured.forEach(product => {
-    featuredGrid.appendChild(createProductCard(product));
+    fragment.appendChild(createProductCard(product));
   });
 
-  featuredEmpty.hidden = true;
+  DOM.featuredGrid.innerHTML = '';
+  DOM.featuredGrid.appendChild(fragment);
+  DOM.featuredEmpty.hidden = true;
 }
 
 function renderCatalogProducts() {
-  catalogGrid.innerHTML = '';
-  
-  const filtered = currentCategory === 'all' 
-    ? allProducts 
+  const filtered = currentCategory === 'all'
+    ? allProducts
     : allProducts.filter(p => p.category === currentCategory);
 
-  catalogCount.textContent = `Showing ${filtered.length} product${filtered.length !== 1 ? 's' : ''}`;
+  DOM.catalogCount.textContent = `Showing ${filtered.length} product${filtered.length !== 1 ? 's' : ''}`;
 
   if (filtered.length === 0) {
-    catalogEmpty.hidden = false;
+    DOM.catalogGrid.innerHTML = '';
+    DOM.catalogEmpty.hidden = false;
     return;
   }
 
+  /* Batch DOM insertion via DocumentFragment */
+  const fragment = document.createDocumentFragment();
   filtered.forEach(product => {
-    catalogGrid.appendChild(createProductCard(product));
+    fragment.appendChild(createProductCard(product));
   });
 
-  catalogEmpty.hidden = true;
+  DOM.catalogGrid.innerHTML = '';
+  DOM.catalogGrid.appendChild(fragment);
+  DOM.catalogEmpty.hidden = true;
+}
+
+/* ======================================
+   FILTER COUNTS — Badge showing how many products per category
+   ====================================== */
+function updateFilterCounts() {
+  /* Count products per category */
+  const counts = { all: allProducts.length };
+  allProducts.forEach((p) => {
+    const cat = (p.category ?? '').trim();
+    if (cat) {
+      counts[cat] = (counts[cat] || 0) + 1;
+    }
+  });
+
+  /* Update desktop pills */
+  DOM.filterPills.forEach((pill) => {
+    const cat = pill.dataset.category;
+    const count = cat === 'all' ? counts.all : (counts[cat] || 0);
+
+    const existing = pill.querySelector('.prd-filter-pill__count');
+    if (existing) existing.remove();
+
+    const badge = document.createElement('span');
+    badge.className = 'prd-filter-pill__count';
+    badge.textContent = count;
+    pill.appendChild(badge);
+  });
+
+  /* Update dropdown pills */
+  if (DOM.dropdownGrid) {
+    DOM.dropdownGrid.querySelectorAll('.prd-filter-pill').forEach((pill) => {
+      const cat = pill.dataset.category;
+      const count = cat === 'all' ? counts.all : (counts[cat] || 0);
+
+      const existing = pill.querySelector('.prd-filter-pill__count');
+      if (existing) existing.remove();
+
+      const badge = document.createElement('span');
+      badge.className = 'prd-filter-pill__count';
+      badge.textContent = count;
+      pill.appendChild(badge);
+    });
+  }
 }
 
 /* ======================================
    FILTER LOGIC
-====================================== */
-filterPills.forEach(pill => {
-  pill.addEventListener('click', () => {
-    // Remove active class from all
-    filterPills.forEach(p => {
-      p.classList.remove('prd-filter-pill--active');
-      p.setAttribute('aria-pressed', 'false');
-    });
-    
-    // Add active class to clicked
-    pill.classList.add('prd-filter-pill--active');
-    pill.setAttribute('aria-pressed', 'true');
-    
-    currentCategory = pill.dataset.category;
-    
-    // Scroll smoothly to catalog header if needed
-    // document.getElementById('products-catalog').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    
-    renderCatalogProducts();
-  });
-});
+   ====================================== */
+function setActiveFilter(category) {
+  currentCategory = category;
 
-emptyResetBtn.addEventListener('click', () => {
-  // Reset filter to 'all'
-  document.getElementById('filter-all').click();
-});
+  /* Update desktop pills */
+  DOM.filterPills.forEach(p => {
+    const isActive = p.dataset.category === category;
+    p.classList.toggle('prd-filter-pill--active', isActive);
+    p.setAttribute('aria-pressed', String(isActive));
+  });
+
+  /* Update dropdown pills */
+  if (DOM.dropdownGrid) {
+    DOM.dropdownGrid.querySelectorAll('.prd-filter-pill').forEach(p => {
+      const isActive = p.dataset.category === category;
+      p.classList.toggle('prd-filter-pill--active', isActive);
+      p.setAttribute('aria-pressed', String(isActive));
+    });
+  }
+
+  /* Update mobile toggle label */
+  if (DOM.activeLabel) {
+    const activePill = document.querySelector(`.prd-filter__nav .prd-filter-pill[data-category="${category}"]`);
+    const labelText = activePill
+      ? activePill.textContent.replace(/\d+$/, '').trim()
+      : 'All Products';
+    DOM.activeLabel.textContent = labelText;
+  }
+
+  renderCatalogProducts();
+}
+
+function initFilters() {
+  /* Desktop inline pills */
+  DOM.filterPills.forEach(pill => {
+    pill.addEventListener('click', () => setActiveFilter(pill.dataset.category));
+  });
+}
+
+/* ======================================
+   MOBILE FILTER DROPDOWN
+   Toggle button opens a dropdown with filter pills for small screens.
+   ====================================== */
+function initMobileFilter() {
+  if (!DOM.mobileToggle || !DOM.filterDropdown || !DOM.dropdownGrid) return;
+
+  /* Clone pills from the inline nav into the dropdown grid */
+  DOM.filterPills.forEach((pill) => {
+    const clone = pill.cloneNode(true);
+    clone.removeAttribute('id');
+
+    clone.addEventListener('click', () => {
+      setActiveFilter(clone.dataset.category);
+      closeMobileDropdown();
+    });
+
+    DOM.dropdownGrid.appendChild(clone);
+  });
+
+  /* Toggle dropdown open/close */
+  DOM.mobileToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = DOM.filterDropdown.classList.contains('is-open');
+    if (isOpen) {
+      closeMobileDropdown();
+    } else {
+      openMobileDropdown();
+    }
+  });
+
+  /* Close on outside click */
+  document.addEventListener('click', (e) => {
+    if (!DOM.filterSection.contains(e.target)) {
+      closeMobileDropdown();
+    }
+  });
+
+  /* Close on Escape key */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && DOM.filterDropdown.classList.contains('is-open')) {
+      closeMobileDropdown();
+    }
+  });
+}
+
+function openMobileDropdown() {
+  DOM.filterDropdown.classList.add('is-open');
+  DOM.mobileToggle.classList.add('is-open');
+  DOM.mobileToggle.setAttribute('aria-expanded', 'true');
+}
+
+function closeMobileDropdown() {
+  DOM.filterDropdown.classList.remove('is-open');
+  DOM.mobileToggle.classList.remove('is-open');
+  DOM.mobileToggle.setAttribute('aria-expanded', 'false');
+}
+
+/* ======================================
+   STICKY FILTER BAR — SCROLL SHADOW
+   ====================================== */
+function initStickyFilter() {
+  if (!DOM.filterSection) return;
+
+  const sentinel = document.createElement('div');
+  sentinel.style.cssText = 'position:absolute;top:0;height:1px;width:1px;pointer-events:none;opacity:0;';
+  sentinel.setAttribute('aria-hidden', 'true');
+  document.body.prepend(sentinel);
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      DOM.filterSection.classList.toggle('scrolled', !entry.isIntersecting);
+    },
+    { threshold: 0, rootMargin: '0px' }
+  );
+
+  observer.observe(sentinel);
+}
+
+/* ======================================
+   EMPTY STATE RESET
+   ====================================== */
+function initEmptyReset() {
+  if (!DOM.emptyReset) return;
+  DOM.emptyReset.addEventListener('click', () => setActiveFilter('all'));
+}
 
 /* ======================================
    MODAL LOGIC
-====================================== */
+   ====================================== */
 function openDetailsModal(product) {
   document.getElementById('modal-product-img').src = product.image_url;
   document.getElementById('modal-product-img').alt = product.name;
@@ -218,14 +404,14 @@ function openDetailsModal(product) {
   orderBtn.parentNode.replaceChild(newOrderBtn, orderBtn);
 
   newOrderBtn.addEventListener('click', () => {
-    closeModal(detailsModal);
+    closeModal(DOM.detailsModal);
     cartManager.clear();
     cartManager.addItem(product, 1);
     checkoutManager.open();
   });
 
-  detailsModal.classList.add('is-active');
-  detailsModal.setAttribute('aria-hidden', 'false');
+  DOM.detailsModal.classList.add('is-active');
+  DOM.detailsModal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
 }
 
@@ -235,23 +421,24 @@ function closeModal(modal) {
   document.body.style.overflow = '';
 }
 
-// Close Modals Setup
-document.querySelectorAll('[data-close-modal]').forEach(el => {
-  el.addEventListener('click', () => closeModal(detailsModal));
-});
-document.querySelectorAll('[data-close-order]').forEach(el => {
-  el.addEventListener('click', () => closeModal(orderModal));
-});
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    if (detailsModal.classList.contains('is-active')) closeModal(detailsModal);
-    if (orderModal.classList.contains('is-active')) closeModal(orderModal);
-  }
-});
+function initModals() {
+  document.querySelectorAll('[data-close-modal]').forEach(el => {
+    el.addEventListener('click', () => closeModal(DOM.detailsModal));
+  });
+  document.querySelectorAll('[data-close-order]').forEach(el => {
+    el.addEventListener('click', () => closeModal(DOM.orderModal));
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (DOM.detailsModal.classList.contains('is-active')) closeModal(DOM.detailsModal);
+      if (DOM.orderModal.classList.contains('is-active')) closeModal(DOM.orderModal);
+    }
+  });
+}
 
 /* ======================================
    CHECKOUT INTEGRATION
-====================================== */
+   ====================================== */
 window.__femaleDreaderProducts = [];
 
 const cartUi = new CartUI({
@@ -299,14 +486,22 @@ cartManager.subscribe(() => {
 
 /* ======================================
    RETRY BUTTONS
-====================================== */
-if (featuredRetryBtn) featuredRetryBtn.addEventListener('click', fetchProducts);
-if (catalogRetryBtn) catalogRetryBtn.addEventListener('click', fetchProducts);
+   ====================================== */
+function initRetryButtons() {
+  if (DOM.featuredRetry) DOM.featuredRetry.addEventListener('click', fetchProducts);
+  if (DOM.catalogRetry) DOM.catalogRetry.addEventListener('click', fetchProducts);
+}
 
 /* ======================================
    INITIALIZE
-====================================== */
+   ====================================== */
 document.addEventListener('DOMContentLoaded', () => {
+  initFilters();
+  initMobileFilter();
+  initEmptyReset();
+  initRetryButtons();
+  initStickyFilter();
+  initModals();
   fetchProducts();
   cartManager.load();
   cartUi.render();

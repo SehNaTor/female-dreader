@@ -29,39 +29,71 @@
           <p class="gallery-hero-description">
             Explore our collection of beautiful hairstyles, dreadlocks, braids, and transformations that showcase our expertise and passion for premium hair artistry.
           </p>
-          <div class="hero-stats">
-            <div class="stat-item">
-              <h3 class="stat-number">200+</h3>
-              <p class="stat-label">Hairstyles Completed</p>
-            </div>
-            <div class="stat-item">
-              <h3 class="stat-number">100+</h3>
-              <p class="stat-label">Happy Clients</p>
-            </div>
-            <div class="stat-item">
-              <h3 class="stat-number">5+</h3>
-              <p class="stat-label">Years Experience</p>
-            </div>
-          </div>
+
         </div>
       </section>
 
       <!-- ========================================
-           CATEGORY FILTER SECTION
+           CATEGORY FILTER SECTION (SaaS-style — matches Products & Services)
       ======================================== -->
-      <section class="gallery-filters-section">
-        <div class="gallery-container">
-          <div class="filters-header">
-            <h2>Filter by Category</h2>
+      <section class="gal-filter-section" aria-label="Filter gallery by category" id="gal-filters">
+        <div class="gal-filter__container">
+          <div class="gal-filter__label">
+            <i class="fa-solid fa-filter" aria-hidden="true"></i>
+            Filter by Category:
           </div>
-          <div class="filter-pills" id="filterPills">
-            <button class="filter-pill active" data-category="all">All</button>
-            <button class="filter-pill" data-category="Locs">Locs</button>
-            <button class="filter-pill" data-category="Braiding">Braiding</button>
-            <button class="filter-pill" data-category="Ghana Weaving">Ghana Weaving</button>
-            <button class="filter-pill" data-category="All Back">All Back</button>
-            <button class="filter-pill" data-category="Nails">Nails</button>
-            <button class="filter-pill" data-category="Transformation">Transformation</button>
+
+          <!-- Mobile: toggle button that opens dropdown -->
+          <button
+            type="button"
+            class="gal-filter__mobile-toggle"
+            id="gal-filter-mobile-toggle"
+            aria-expanded="false"
+            aria-controls="gal-filter-dropdown"
+            aria-label="Open category filter menu"
+          >
+            <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+            <span class="gal-filter__active-label">All</span>
+            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+          </button>
+
+          <!-- Desktop: horizontal scrollable nav -->
+          <nav class="gal-filter__nav" id="filterPills" role="navigation" aria-label="Gallery category filters">
+            <button class="gal-filter-pill gal-filter-pill--active" data-category="all" aria-pressed="true" aria-label="Show all gallery items" id="gal-filter-all">
+              <span class="gal-filter-pill__dot"></span>
+              All
+            </button>
+            <button class="gal-filter-pill" data-category="Locs" aria-pressed="false" aria-label="Filter by Locs" id="gal-filter-locs">
+              <span class="gal-filter-pill__dot"></span>
+              Locs
+            </button>
+            <button class="gal-filter-pill" data-category="Braiding" aria-pressed="false" aria-label="Filter by Braiding" id="gal-filter-braiding">
+              <span class="gal-filter-pill__dot"></span>
+              Braiding
+            </button>
+            <button class="gal-filter-pill" data-category="Ghana Weaving" aria-pressed="false" aria-label="Filter by Ghana Weaving" id="gal-filter-ghana-weaving">
+              <span class="gal-filter-pill__dot"></span>
+              Ghana Weaving
+            </button>
+            <button class="gal-filter-pill" data-category="All Back" aria-pressed="false" aria-label="Filter by All Back" id="gal-filter-all-back">
+              <span class="gal-filter-pill__dot"></span>
+              All Back
+            </button>
+            <button class="gal-filter-pill" data-category="Nails" aria-pressed="false" aria-label="Filter by Nails" id="gal-filter-nails">
+              <span class="gal-filter-pill__dot"></span>
+              Nails
+            </button>
+            <button class="gal-filter-pill" data-category="Transformation" aria-pressed="false" aria-label="Filter by Transformation" id="gal-filter-transformation">
+              <span class="gal-filter-pill__dot"></span>
+              Transformation
+            </button>
+          </nav>
+        </div>
+
+        <!-- Mobile dropdown panel -->
+        <div class="gal-filter__dropdown" id="gal-filter-dropdown" aria-label="Category filters">
+          <div class="gal-filter__dropdown-grid" id="gal-filter-dropdown-grid">
+            <!-- Pills are cloned here by JS from the nav -->
           </div>
         </div>
       </section>

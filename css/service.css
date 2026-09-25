@@ -1,7 +1,7 @@
 /* ============================================================
    FEMALE DREADER — SERVICES & PRICING PAGE
    css/service.css
-   Luxury Salon Aesthetic
+   Luxury Salon Aesthetic — Performance-Optimized
    ============================================================ */
 
 /* ============================================================
@@ -47,6 +47,7 @@ body {
     border-color var(--transition-base) var(--transition-ease),
     transform var(--transition-fast) var(--transition-ease-spring),
     box-shadow var(--transition-base) var(--transition-ease);
+  will-change: transform;
 }
 .svc-btn:hover  { transform: translateY(-2px); }
 .svc-btn:active { transform: translateY(0); }
@@ -102,7 +103,7 @@ body {
 .svc-section-container {
   max-width: var(--layout-max-width);
   margin: 0 auto;
-  padding: var(--space-4xl) var(--layout-px);
+  padding: var(--space-xl) var(--layout-px);
 }
 
 .svc-section-header {
@@ -124,7 +125,8 @@ body {
 
 .svc-section-heading {
   font-family: var(--font-secondary);
-  font-size: clamp(2rem, 5vw, 3rem);
+  /* font-size: clamp(2rem, 5vw, 3rem); */
+
   font-weight: 800;
   color: var(--color-text-primary);
   line-height: 1.15;
@@ -184,6 +186,7 @@ body {
   background: var(--color-gold);
   opacity: 0;
   animation: svcParticleFloat 8s infinite ease-in-out;
+  will-change: transform, opacity;
 }
 .svc-hero__particles span:nth-child(1) { width: 3px; height: 3px; top: 20%; left: 15%; animation-delay: 0s;   opacity: 0.4; }
 .svc-hero__particles span:nth-child(2) { width: 2px; height: 2px; top: 60%; left: 80%; animation-delay: 1.5s; opacity: 0.3; }
@@ -278,7 +281,7 @@ body {
   gap: 0.4rem;
   font-size: var(--text-sm);
   font-weight: 600;
-  color: var(--svc-text-on-dark-muted);
+  color: var(--color-bg-light);
   padding: var(--space-3xs) var(--space-sm);
   border-radius: var(--radius-pill);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -321,7 +324,7 @@ body {
 }
 
 /* ============================================================
-   CATEGORY FILTER SECTION
+   CATEGORY FILTER SECTION — MODERNIZED SaaS STYLE
    ============================================================ */
 .svc-filter-section {
   background: var(--color-white);
@@ -329,10 +332,14 @@ body {
   position: sticky;
   top: 60px;
   z-index: 100;
-  transition: box-shadow var(--transition-base) var(--transition-ease);
+  transition: box-shadow var(--transition-base) var(--transition-ease),
+              background var(--transition-base) var(--transition-ease);
 }
 .svc-filter-section.scrolled {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .svc-filter__container {
@@ -342,7 +349,6 @@ body {
   display: flex;
   align-items: center;
   gap: 1.25rem;
-  flex-wrap: wrap;
 }
 
 .svc-filter__label {
@@ -359,11 +365,38 @@ body {
 }
 .svc-filter__label i { color: var(--color-gold); font-size: var(--text-xs); }
 
+/* ---- Scrollable filter nav ---- */
 .svc-filter__nav {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  flex-wrap: wrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* IE/Edge */
+  flex: 1;
+  min-width: 0;
+  padding: 4px 0;
+  /* Fade edges to hint at scroll */
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 2%,
+    black 98%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 2%,
+    black 98%,
+    transparent 100%
+  );
+}
+.svc-filter__nav::-webkit-scrollbar {
+  display: none;                  /* Chrome/Safari */
 }
 
 .svc-filter-pill {
@@ -379,11 +412,15 @@ body {
   border: 1.5px solid var(--color-border);
   background: transparent;
   color: var(--color-text-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
   transition:
     background var(--transition-fast) var(--transition-ease),
     border-color var(--transition-fast) var(--transition-ease),
     color var(--transition-fast) var(--transition-ease),
-    transform var(--transition-fast) var(--transition-ease-spring);
+    transform var(--transition-fast) var(--transition-ease-spring),
+    box-shadow var(--transition-fast) var(--transition-ease);
+  will-change: transform;
 }
 .svc-filter-pill:hover {
   border-color: var(--color-gold);
@@ -416,6 +453,95 @@ body {
   flex-shrink: 0;
 }
 .svc-filter-pill--active .svc-filter-pill__dot { opacity: 1; }
+
+/* ---- Filter count badge on pills ---- */
+.svc-filter-pill__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: var(--radius-pill);
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1;
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--color-text-muted);
+  margin-left: 2px;
+}
+.svc-filter-pill--active .svc-filter-pill__count {
+  background: rgba(0, 0, 0, 0.15);
+  color: var(--color-black);
+}
+
+/* ---- Mobile filter toggle (hamburger → dropdown) ---- */
+.svc-filter__mobile-toggle {
+  display: none; /* Hidden by default, shown on mobile */
+  align-items: center;
+  gap: 0.5rem;
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  font-family: var(--font-primary);
+  cursor: pointer;
+  border: 1.5px solid var(--color-border);
+  background: var(--color-white);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  transition:
+    background var(--transition-fast) var(--transition-ease),
+    border-color var(--transition-fast) var(--transition-ease),
+    color var(--transition-fast) var(--transition-ease);
+}
+.svc-filter__mobile-toggle i {
+  font-size: var(--text-xs);
+  color: var(--color-gold);
+  transition: transform var(--transition-fast) var(--transition-ease);
+}
+.svc-filter__mobile-toggle.is-open i {
+  transform: rotate(180deg);
+}
+.svc-filter__mobile-toggle:hover {
+  border-color: var(--color-gold);
+  background: var(--color-gold-subtle);
+}
+.svc-filter__mobile-toggle .svc-filter__active-label {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- Mobile dropdown panel ---- */
+.svc-filter__dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-border-light);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  padding: var(--space-sm) var(--layout-px);
+  z-index: 99;
+  animation: svcFilterDropIn 0.25s var(--transition-ease-out) both;
+}
+.svc-filter__dropdown.is-open {
+  display: block;
+}
+@keyframes svcFilterDropIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.svc-filter__dropdown-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 4px 0;
+}
 
 /* ============================================================
    FEATURED SERVICES SECTION
@@ -452,10 +578,15 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.05);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
   transition: box-shadow var(--transition-base) var(--transition-ease), transform var(--transition-base) var(--transition-ease);
-  animation: svcCardEnter 0.5s var(--transition-ease-out) both;
   scroll-snap-align: center;
+  /* GPU-composited entry animation */
+  opacity: 0;
+  transform: translateY(20px);
+  animation: svcCardReveal 0.5s var(--transition-ease-out) both;
+  will-change: transform, opacity;
+  contain: layout style;
 }
-@keyframes svcCardEnter {
+@keyframes svcCardReveal {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
@@ -504,6 +635,7 @@ body {
   display: block;
   opacity: 0;
   transition: opacity 0.4s var(--transition-ease), transform var(--transition-slow) var(--transition-ease);
+  will-change: opacity, transform;
 }
 .svc-featured-card__img.img-loaded { opacity: 1; }
 .svc-featured-card:hover .svc-featured-card__img { transform: scale(1.06); }
@@ -628,6 +760,7 @@ body {
     transform var(--transition-fast) var(--transition-ease-spring),
     box-shadow var(--transition-base) var(--transition-ease);
   align-self: flex-start;
+  will-change: transform;
 }
 .svc-featured-card__book-btn:hover {
   background: var(--color-gold);
@@ -669,7 +802,7 @@ body {
 }
 
 /* ============================================================
-   CATALOG SERVICE CARD
+   CATALOG SERVICE CARD — GPU-Optimized
    ============================================================ */
 .svc-card {
   display: flex;
@@ -680,8 +813,20 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.05);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
   transition: box-shadow var(--transition-base) var(--transition-ease), transform var(--transition-base) var(--transition-ease);
-  animation: svcCardEnter 0.45s var(--transition-ease-out) both;
+  /* GPU-composited reveal — no layout thrash */
+  opacity: 0;
+  transform: translateY(16px);
+  will-change: transform, opacity;
+  contain: layout style;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 520px;
 }
+
+/* Animate in via JS-controlled class instead of auto animation-delay */
+.svc-card.svc-card--visible {
+  animation: svcCardReveal 0.45s var(--transition-ease-out) both;
+}
+
 .svc-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
@@ -707,6 +852,7 @@ body {
   display: block;
   opacity: 0;
   transition: opacity 0.4s var(--transition-ease), transform var(--transition-slow) var(--transition-ease);
+  will-change: opacity, transform;
 }
 .svc-card__img.img-loaded { opacity: 1; }
 .svc-card:hover .svc-card__img { transform: scale(1.07); }
@@ -822,6 +968,7 @@ body {
   margin-top: auto;
   -webkit-appearance: none;
   appearance: none;
+  will-change: transform;
 }
 .svc-card__book-btn:hover {
   background: var(--color-gold-dark);
@@ -1067,20 +1214,92 @@ body {
 @media (max-width: 768px) {
   
 
-  .svc-section-container { padding: var(--space-3xl) var(--layout-px); }
+  /* .svc-section-container { padding: var(--space-xl) var(--layout-px); } */
 
   .svc-hero { min-height: 80vh; }
   .svc-hero__cta-group { flex-direction: column; align-items: stretch; }
   .svc-hero__cta-group .svc-btn { justify-content: center; }
 
-  .svc-filter__container { gap: 0.75rem; }
+  /* ---- Filter: dropdown mode on mobile ---- */
+  .svc-filter__container {
+    gap: 0.75rem;
+    position: relative;
+  }
   .svc-filter__label { display: none; }
+
+  /* Hide inline nav, show toggle button */
+  .svc-filter__nav {
+    display: none;
+  }
+  .svc-filter__mobile-toggle {
+    display: inline-flex;
+  }
 
   .svc-featured-card__body { padding: var(--space-md); }
   .svc-featured-card__name { font-size: var(--text-xl); }
 
   .svc-cta__buttons { flex-direction: column; align-items: stretch; }
   .svc-cta__buttons .svc-btn { justify-content: center; }
+
+  /* Reduce card hover transforms on touch */
+  .svc-card:hover,
+  .svc-featured-card:hover {
+    transform: none;
+  }
+}
+
+/* ============================================================
+   SMALL MOBILE (≤ 480px) — Extra refinements
+   ============================================================ */
+@media (max-width: 480px) {
+  .svc-filter-section {
+    top: 56px; /* Smaller navbar on very small screens */
+  }
+
+  .svc-featured-grid {
+    grid-auto-columns: 85vw;
+  }
+
+  .svc-hero {
+    min-height: 75vh;
+  }
+
+  .svc-hero__trust {
+    gap: 0.5rem;
+  }
+  .svc-trust-pill {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+  }
+}
+
+/* ============================================================
+   REDUCED MOTION — Accessibility
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .svc-hero__particles span,
+  .svc-hero__scroll span::after {
+    animation: none;
+  }
+  .svc-hero__content {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .svc-featured-card,
+  .svc-card,
+  .svc-card.svc-card--visible {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .svc-filter__dropdown {
+    animation: none;
+  }
+  .svc-skeleton__img,
+  .svc-skeleton__line {
+    animation: none;
+  }
 }
 
 /* ============================================================

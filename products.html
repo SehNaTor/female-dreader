@@ -136,7 +136,7 @@
       </section>
 
       <!-- ======================================
-           SECTION 3: CATEGORY FILTERS
+           SECTION 3: CATEGORY FILTERS (Modernized SaaS-style)
       ====================================== -->
       <section class="prd-filter-section" aria-label="Filter products by category" id="prd-filters">
         <div class="prd-filter__container">
@@ -144,6 +144,22 @@
             <i class="fa-solid fa-filter" aria-hidden="true"></i>
             Filter by Category:
           </div>
+
+          <!-- Mobile: toggle button that opens dropdown -->
+          <button
+            type="button"
+            class="prd-filter__mobile-toggle"
+            id="prd-filter-mobile-toggle"
+            aria-expanded="false"
+            aria-controls="prd-filter-dropdown"
+            aria-label="Open category filter menu"
+          >
+            <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+            <span class="prd-filter__active-label">All Products</span>
+            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+          </button>
+
+          <!-- Desktop: horizontal scrollable nav -->
           <nav class="prd-filter__nav" role="navigation" aria-label="Product category filters">
             <button class="prd-filter-pill prd-filter-pill--active" data-category="all" aria-pressed="true" aria-label="Show all products" id="filter-all">
               <span class="prd-filter-pill__dot"></span>
@@ -178,6 +194,13 @@
               Beauty Accessories
             </button>
           </nav>
+        </div>
+
+        <!-- Mobile dropdown panel -->
+        <div class="prd-filter__dropdown" id="prd-filter-dropdown" aria-label="Category filters">
+          <div class="prd-filter__dropdown-grid" id="prd-filter-dropdown-grid">
+            <!-- Pills are cloned here by JS from the nav -->
+          </div>
         </div>
       </section>
 

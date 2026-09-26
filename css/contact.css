@@ -141,7 +141,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: var(--space-5xl) var(--space-md) var(--space-3xl);
+  padding: var(--space-3xl) var(--space-md) var(--space-3xl);
   overflow: hidden;
   background-color: var(--color-text-primary);
 }
@@ -651,7 +651,7 @@ a.info-link:hover {
   }
 
   .contact-hero {
-    padding: var(--space-5xl) var(--space-sm) var(--space-2xl);
+    padding: var(--space-3xl) var(--space-sm) var(--space-2xl);
   }
 
   .premium-form {

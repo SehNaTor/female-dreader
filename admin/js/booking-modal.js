@@ -386,7 +386,7 @@ export class BookingModal {
         </div>
 
         <!-- BODY (scrollable) -->
-        <div class="admin-modal__body bm-body">
+        <div class="admin-modal__body bm-body" data-lenis-prevent>
           ${buildModalHtml(this.booking)}
         </div>
 
@@ -558,12 +558,7 @@ export class BookingModal {
       section.classList.add('bm-reschedule-section--visible');
       section.setAttribute('aria-hidden', 'false');
       btn.innerHTML = '<i class="fa-solid fa-xmark"></i> Hide Reschedule';
-      // Scroll into view using Lenis if available
-      if (window.FDScroll) {
-        window.FDScroll.scrollTo(section, { offset: -20 });
-      } else {
-        section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }
+      section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     } else {
       section.classList.remove('bm-reschedule-section--visible');
       section.setAttribute('aria-hidden', 'true');

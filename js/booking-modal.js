@@ -94,7 +94,7 @@ function buildModalHTML() {
           </div>
         </div>
 
-        <div class="bm-modal__content">
+        <div class="bm-modal__content" data-lenis-prevent>
           <div class="bm-modal__header">
             <p class="bm-modal__eyebrow">
               <i class="fa-solid fa-calendar-plus" aria-hidden="true"></i>

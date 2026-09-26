@@ -3,49 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bookings Management - Female Dreader Admin</title>
+  <title>Gallery Management - Female Dreader Admin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="../css/global.css">
-  <link rel="stylesheet" href="css/admin.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="admin/css/admin.css">
+  <link rel="stylesheet" href="admin/css/layout.css">
+  <link rel="stylesheet" href="admin/css/components.css">
+  <link rel="stylesheet" href="admin/css/image-uploader.css">
 </head>
 <body>
 
   <div class="admin-page-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
     <div>
-      <h2 style="margin: 0; font-size: 1.5rem;">Bookings</h2>
-      <p class="text-muted" style="margin-top: 0.25rem; font-size: 0.95rem;">Manage customer appointments.</p>
+      <h2 style="margin: 0; font-size: 1.5rem;">Gallery</h2>
+      <p class="text-muted" style="margin-top: 0.25rem; font-size: 0.95rem;">Manage your portfolio images.</p>
     </div>
+    <button class="admin-btn admin-btn--gold" id="btn-add-gallery">
+      <i class="fa-solid fa-plus"></i> Add Image
+    </button>
   </div>
   
   <div class="admin-toolbar" style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
     <div class="admin-form-group" style="margin: 0; flex-grow: 1; max-width: 340px; position: relative;">
       <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--admin-text-muted);"></i>
-      <input type="text" id="search-bookings" class="admin-form-input" placeholder="Search by customer name or phone..." style="padding-left: 2.5rem;">
+      <input type="text" id="search-gallery" class="admin-form-input" placeholder="Search gallery by title..." style="padding-left: 2.5rem;">
     </div>
-    
-    <select id="filter-status" class="admin-form-input" style="max-width: 200px;">
-      <option value="All">All Statuses</option>
-      <option value="Pending">Pending</option>
-      <option value="Confirmed">Confirmed</option>
-      <option value="Completed">Completed</option>
-      <option value="Cancelled">Cancelled</option>
-      <option value="Rescheduled">Rescheduled</option>
-    </select>
   </div>
 
-  <div id="bookings-table-container">
+  <div id="gallery-table-container">
     <div class="admin-loader"></div>
   </div>
 
   <!-- Lenis Smooth Scroll -->
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
-  <script src="../js/scroll/scroll-init.js"></script>
+  <script src="js/scroll/scroll-init.js"></script>
 
-  <script type="module" src="js/bookings.js"></script>
+  <script type="module" src="admin/js/gallery.js"></script>
 </body>
 </html>

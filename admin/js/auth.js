@@ -1,5 +1,9 @@
 import { supabase } from './supabase.js';
 
+const resolveAdminPage = (page) => window.location.pathname.includes('/admin/')
+  ? `../${page}`
+  : page;
+
 /**
  * Handles Authentication for the Admin Dashboard.
  */
@@ -9,7 +13,7 @@ export const requireAuth = async () => {
   const { data: { session }, error } = await supabase.auth.getSession();
   
   if (error || !session) {
-    window.location.replace('login.html');
+    window.location.replace(resolveAdminPage('login.html'));
     return null;
   }
   
@@ -20,13 +24,13 @@ export const requireAuth = async () => {
 export const redirectIfAuthenticated = async () => {
   const { data: { session } } = await supabase.auth.getSession();
   if (session) {
-    window.location.replace('dashboard.html');
+    window.location.replace(resolveAdminPage('dashboard.html'));
   }
 };
 
 export const logout = async () => {
   await supabase.auth.signOut();
-  window.location.replace('login.html');
+  window.location.replace(resolveAdminPage('login.html'));
 };
 
 
@@ -101,7 +105,7 @@ const initLoginForm = () => {
       if (error) throw error;
 
       // Success - Redirect
-      window.location.replace('dashboard.html');
+      window.location.replace(resolveAdminPage('dashboard.html'));
 
     } catch (err) {
       console.error('Login error:', err);

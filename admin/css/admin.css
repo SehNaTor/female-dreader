@@ -4,6 +4,40 @@
    Luxury SaaS Dashboard Aesthetics
    ============================================================ */
 
+:root {
+  --admin-bg: #f8fafc;
+  --admin-surface: #ffffff;
+  --admin-border: #e2e8f0;
+  --admin-text-main: #1e293b;
+  --admin-text-secondary: #475569;
+  --admin-text-muted: #64748b;
+  --admin-text-light: #94a3b8;
+  --admin-gold: #c9a96e;
+  --admin-gold-dark: #a8833a;
+  --admin-gold-light: rgba(201, 169, 110, 0.16);
+  --admin-danger: #ef4444;
+  --admin-danger-bg: #fef2f2;
+  --admin-success: #10b981;
+  --admin-success-bg: #ecfdf5;
+  --admin-warning: #f59e0b;
+  --admin-warning-bg: #fffbeb;
+  --admin-info: #3b82f6;
+  --admin-info-bg: #eff6ff;
+  --admin-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --admin-font-serif: 'Playfair Display', Georgia, serif;
+  --admin-radius-sm: 6px;
+  --admin-radius-md: 10px;
+  --admin-radius-lg: 16px;
+  --admin-radius-pill: 999px;
+  --admin-shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.08);
+  --admin-shadow-md: 0 4px 12px rgba(15, 23, 42, 0.1);
+  --admin-shadow-lg: 0 12px 28px rgba(15, 23, 42, 0.14);
+  --admin-shadow-xl: 0 24px 48px rgba(15, 23, 42, 0.18);
+  --admin-transition: all 0.2s ease;
+  --admin-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --admin-sidebar-width: 260px;
+  --admin-header-height: 72px;
+}
 
 
 /* ============================================================

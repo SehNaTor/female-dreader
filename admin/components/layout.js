@@ -5,6 +5,8 @@ import { logout } from '../js/auth.js';
  * Keeps all HTML pages clean and DRY.
  */
 export const injectLayout = (pageTitle, activeNav) => {
+  const pageBase = window.location.pathname.includes('/admin/') ? '../' : './';
+
   // Grab whatever content is currently in the body (this is the page-specific UI)
   const originalContent = document.body.innerHTML;
   
@@ -21,29 +23,32 @@ export const injectLayout = (pageTitle, activeNav) => {
       FD Admin
     </div>
     <nav class="admin-sidebar__nav">
-      <a href="dashboard.html" class="admin-sidebar__link ${activeNav === 'dashboard' ? 'active' : ''}">
+      <a href="${pageBase}dashboard.html" class="admin-sidebar__link ${activeNav === 'dashboard' ? 'active' : ''}">
         <i class="fa-solid fa-chart-line"></i> Dashboard
       </a>
-      <a href="services.html" class="admin-sidebar__link ${activeNav === 'services' ? 'active' : ''}">
+      <a href="${pageBase}admin-services.html" class="admin-sidebar__link ${activeNav === 'services' ? 'active' : ''}">
         <i class="fa-solid fa-scissors"></i> Services
       </a>
-      <a href="products.html" class="admin-sidebar__link ${activeNav === 'products' ? 'active' : ''}">
+      <a href="${pageBase}admin-products.html" class="admin-sidebar__link ${activeNav === 'products' ? 'active' : ''}">
         <i class="fa-solid fa-bottle-droplet"></i> Products
       </a>
-      <a href="gallery.html" class="admin-sidebar__link ${activeNav === 'gallery' ? 'active' : ''}">
+      <a href="${pageBase}admin-gallery.html" class="admin-sidebar__link ${activeNav === 'gallery' ? 'active' : ''}">
         <i class="fa-solid fa-images"></i> Gallery
       </a>
-      <a href="bookings.html" class="admin-sidebar__link ${activeNav === 'bookings' ? 'active' : ''}">
+      <a href="${pageBase}bookings.html" class="admin-sidebar__link ${activeNav === 'bookings' ? 'active' : ''}">
         <i class="fa-regular fa-calendar-check"></i> Bookings
       </a>
-      <a href="orders.html" class="admin-sidebar__link ${activeNav === 'orders' ? 'active' : ''}">
+      <a href="${pageBase}orders.html" class="admin-sidebar__link ${activeNav === 'orders' ? 'active' : ''}">
         <i class="fa-solid fa-cart-shopping"></i> Orders
       </a>
-      <a href="settings.html" class="admin-sidebar__link ${activeNav === 'settings' ? 'active' : ''}">
+      <a href="${pageBase}settings.html" class="admin-sidebar__link ${activeNav === 'settings' ? 'active' : ''}">
         <i class="fa-solid fa-gear"></i> Settings
       </a>
     </nav>
     <div class="admin-sidebar__footer">
+      <a href="${pageBase}index.html" class="admin-btn admin-btn--outline" style="width: 100%; margin-bottom: 0.75rem; text-decoration: none;">
+        <i class="fa-solid fa-arrow-left"></i> Back to Website
+      </a>
       <button class="admin-btn admin-btn--outline" style="width: 100%;" id="admin-logout-btn">
         <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
       </button>

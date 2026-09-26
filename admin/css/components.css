@@ -131,6 +131,7 @@
   width: 100%;
   max-width: 600px;
   max-height: 90vh;
+  max-height: min(90vh, 90dvh);
   border-radius: var(--admin-radius-lg);
   box-shadow: var(--admin-shadow-xl);
   display: flex;
@@ -187,6 +188,8 @@
   overflow-y: auto;
   flex: 1 1 auto;
   min-height: 0;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
 }
 
 .admin-modal__footer {
@@ -317,12 +320,20 @@
 
 /* Wider modal for the rich booking view */
 .bm-modal {
+  height: min(90vh, 90dvh);
   max-width: 720px;
 }
 
 /* Scrollable body with no extra padding – sections handle their own spacing */
 .bm-body {
   padding: 0;
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
 }
 
 /* ── WRAP ── */
